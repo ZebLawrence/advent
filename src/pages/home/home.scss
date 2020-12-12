@@ -1,0 +1,38 @@
+
+
+.home{
+    a{
+        display: block;
+    }
+    .advent-day{
+
+        .good-result{
+            color: green;
+        }
+
+        .bad-result{
+            color: red;
+        }
+
+        span{
+            padding: 5px;
+        }
+
+        .forest{
+            font-size: 10px;
+            .forest-section{
+                //letter-spacing: 5px;
+
+                span{
+                    padding: 0px;
+
+                    &.person{
+                        color: red;
+                    }
+                }
+            }
+        }
+    }
+
+
+}
