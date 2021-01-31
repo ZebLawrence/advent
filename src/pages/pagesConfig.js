@@ -26,6 +26,13 @@ const day3 = {
     path: '/day3'
 };
 
+const tree = {
+    name: 'Tree',
+    bodyClass: 'home',
+    componentPath: 'home/Tree',
+    path: '/tree'
+};
+
 const routeError = {
     name: 'Route Error',
     componentPath: 'routeError/routeError',
@@ -37,6 +44,7 @@ const pages = {
     day1,
     day2,
     day3,
+    tree,
     routeError
 };
 
@@ -44,7 +52,8 @@ const navItems = [
     home,
     day1,
     day2,
-    day3
+    day3,
+    tree
 ];
 
 export {

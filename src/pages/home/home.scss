@@ -32,6 +32,14 @@
                 }
             }
         }
+
+
+        .tree-container{
+            .tree-level{
+                display: flex;
+                justify-content: space-evenly;
+            }
+        }
     }
 
 

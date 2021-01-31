@@ -30,7 +30,7 @@ class Navigation extends Component {
   render() {
     return (
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">Covid Visuals</NavbarBrand>
+        <NavbarBrand href="/">Advent of code</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
