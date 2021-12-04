@@ -42,5 +42,47 @@
         }
     }
 
+    .rounded-circle{
+        min-width: 31px;
+        display: inline-block;
+    }
+
+    .bingo-container{
+        margin-bottom: 10px;
+        table{
+            margin: auto;
+            tr{
+                td{
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    padding: 0;
+                    text-align: center;
+                    border-top: 1px solid #ccc;
+                    border-left: 1px solid #ccc;
+                    
+                    &:last-child{
+                        border-right: 1px solid #ccc;
+                    }
+
+                    &.selected{
+                        background-color: red;
+                    }
+                }
+                
+                &:last-child{
+                    td{
+                        border-bottom: 1px solid #ccc;
+
+                    }
+                }
+            }
+        }
+    }
+
+    .winning-list{
+        max-height: 250px;
+        overflow: auto;
+    }
 
 }

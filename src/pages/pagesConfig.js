@@ -5,32 +5,67 @@ const home = {
     path: '/'
 };
 
-const day1 = {
+const advent2020 = {
+    name: '2020',
+    bodyClass: 'home',
+    componentPath: 'home/home2020',
+    path: '/'
+};
+
+const day1_2020 = {
     name: 'Day 1',
     bodyClass: 'home',
-    componentPath: 'home/Day1',
-    path: '/day1'
+    componentPath: 'advent2020/Day1',
+    path: '/day1-2020'
 };
 
-const day2 = {
+const day2_2020 = {
     name: 'Day 2',
     bodyClass: 'home',
-    componentPath: 'home/Day2',
-    path: '/day2'
+    componentPath: 'advent2020/Day2',
+    path: '/day2-2020'
 };
 
-const day3 = {
+const day3_2020 = {
     name: 'Day 3',
     bodyClass: 'home',
-    componentPath: 'home/Day3',
-    path: '/day3'
+    componentPath: 'advent2020/Day3',
+    path: '/day3-2020'
 };
 
-const tree = {
+const tree_2020 = {
     name: 'Tree',
     bodyClass: 'home',
-    componentPath: 'home/Tree',
-    path: '/tree'
+    componentPath: 'advent2020/Tree',
+    path: '/tree-2020'
+};
+
+const day1_2021 = {
+    name: 'Day 1',
+    bodyClass: 'home',
+    componentPath: 'advent2021/Day1',
+    path: '/day1-2021'
+};
+
+const day2_2021 = {
+    name: 'Day 2',
+    bodyClass: 'home',
+    componentPath: 'advent2021/Day2',
+    path: '/day2-2021'
+};
+
+const day3_2021 = {
+    name: 'Day 3',
+    bodyClass: 'home',
+    componentPath: 'advent2021/Day3',
+    path: '/day3-2021'
+};
+
+const day4_2021 = {
+    name: 'Day 4',
+    bodyClass: 'home',
+    componentPath: 'advent2021/Day4',
+    path: '/day4-2021'
 };
 
 const routeError = {
@@ -40,20 +75,28 @@ const routeError = {
 };
 
 const pages = {
-    home,
-    day1,
-    day2,
-    day3,
-    tree,
+    advent2020,
+    day1_2020,
+    day2_2020,
+    day3_2020,
+    tree_2020,
+    day1_2021,
+    day2_2021,
+    day3_2021,
+    day4_2021,
     routeError
 };
 
 const navItems = [
-    home,
-    day1,
-    day2,
-    day3,
-    tree
+    advent2020,
+    day1_2020,
+    day2_2020,
+    day3_2020,
+    day1_2021,
+    day2_2021,
+    day3_2021,
+    day4_2021,
+    tree_2020
 ];
 
 export {

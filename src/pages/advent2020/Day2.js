@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import day2 from '../../puzzles/day2';
-import './home.scss';
+import '../home/home.scss';
 
 class Day2 extends Component {
   constructor(props){
@@ -33,7 +33,7 @@ class Day2 extends Component {
   }
 
   render() {
-    const { goalValue, hideBadResults, findNumber } = this.state;
+    const {  hideBadResults } = this.state;
     const { data } = day2 || {};
     const badAnswers = [];
     const goodAnswers = [];
@@ -76,7 +76,7 @@ class Day2 extends Component {
       const charAt1 = password.charAt(minCount - 1);
       const charAt2 = password.charAt(maxCount - 1);
 
-      if (charAt1 === letter && charAt2 !== letter || charAt1 !== letter && charAt2 === letter) {
+      if ((charAt1 === letter && charAt2 !== letter) || (charAt1 !== letter && charAt2 === letter)) {
         bestAnswers.push(
           <div className={`good-result ${hideBadResults ? '' : 'hide'}`}>
             <span>{password}</span>

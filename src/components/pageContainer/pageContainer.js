@@ -11,7 +11,7 @@ class PageContainer extends Component {
         let pageClass = 'route-error';
 
         Object.keys(pages).forEach(key => {
-            if(pages[key].path == currentPath){
+            if(pages[key].path === currentPath){
                 pageClass = pages[key].bodyClass;
             }
         });

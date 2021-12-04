@@ -1,8 +1,7 @@
 
-import { call, put, cancel, fork, takeEvery, takeLatest } from 'redux-saga/effects';
-import types from '../actions/types';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { getApiRequestTypes } from './getApiRequestTypes';
-import { apiRequest, apiFailure } from '../actions/utilityActions';
+import { apiFailure } from '../actions/utilityActions';
 
 export default api => {
     function* worker(action) {
@@ -54,17 +53,10 @@ export default api => {
 
     function* watcher(){
         yield takeEvery(actionsForWorkerToWatch, worker);
-        //yield fork(takeLatest, types.KILL_ALL_WORKERS, cancelWorkerSaga, tasks);
-    };
-
-    function* cancelWorkerSaga(task) {
-        yield cancel(task);
-        yield fork(watcher);
     };
 
     return {
         watcher,
         worker
-        //api
     };
 };

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
 import day3 from '../../puzzles/day3';
-//import day3 from '../../puzzles/day3Simple';
-import './home.scss';
+import '../home/home.scss';
 
 class Day3 extends Component {
   constructor(props){
@@ -58,7 +56,7 @@ class Day3 extends Component {
       const multipler = Math.floor(distanceIndex / area.length);
       let forestSection = area;
 
-      if ((index % fall) == 0) {
+      if ((index % fall) === 0) {
 
         for (let index = 0; index < multipler; index++) {
           forestSection += area;       

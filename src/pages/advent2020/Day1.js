@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import day1 from '../../puzzles/day1';
-import './home.scss';
+import '../home/home.scss';
 
 class Day1 extends Component {
   constructor(props){
@@ -73,7 +73,6 @@ class Day1 extends Component {
       const amount = data[index];
       const diff1 = goalValue - amount;
 
-    loop2:
       for (let index2 = 0; index2 < data.length; index2++) {
         const amount2 = data[index2];
         const diff2 = diff1 - amount2;
