@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Button, Badge, Alert } from 'reactstrap';
 import puzzleInput from '../../puzzles/day4-2021';
 // import puzzleInput from '../../puzzles/day4-2021simple';
-import Title from './Title';
-import TimeTaken from './TimeTaken';
-import Body from './Body';
+import Title from '../../components/Title';
+import TimeTaken from '../../components/TimeTaken';
+import Body from '../../components/Body';
 import BingoBoard from './BingoBoard';
 import '../home/home.scss';
 

@@ -40,6 +40,51 @@
                 justify-content: space-evenly;
             }
         }
+
+        table{
+            caption-side: top;
+            tr{
+                td{
+                    padding: 10px;
+                    border: 1px solid #ccc;
+
+                    &:last-child{
+                        text-align: right;
+                    }
+                }
+            }
+        }
+
+        .vent-map{
+            table{
+                thead{
+                    th{
+                        text-align: center;
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+                tr{
+                    td{
+                        border: 1px solid #ccc;
+                        width: 30px;
+                        height: 30px;
+                        text-align: center;
+                        
+                        &.small{
+                            border: 0px solid #ccc;
+                            width: 1px;
+                            height: 1px;
+                        }
+                    }
+                }
+            }
+
+            .pair-list{
+                padding-top: 50px;
+                font-size: 25px;
+            }
+        }
     }
 
     .rounded-circle{
@@ -47,7 +92,7 @@
         display: inline-block;
     }
 
-    .bingo-container{
+    .bingo-container, .vent-map{
         margin-bottom: 10px;
         table{
             margin: auto;

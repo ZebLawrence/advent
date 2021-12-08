@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import puzzleInput from '../../puzzles/day2-2021';
-import Title from './Title';
-import TimeTaken from './TimeTaken';
-import Body from './Body';
+import Title from '../../components/Title';
+import TimeTaken from '../../components/TimeTaken';
+import Body from '../../components/Body';
 import '../home/home.scss';
 
 class Day1 extends Component {
