@@ -42,6 +42,32 @@
         }
 
         table{
+            &.digit{
+                margin: 15px;
+                tr{
+                    td{
+                        border: 0px solid transparent;
+                        padding: 0px;
+                        width: 15px;
+                        height: 15px;
+                        line-height: 15px;
+                        font-size: 15px;
+                        text-align: center;
+                        
+                        &.alert-danger{
+                            box-shadow: -4px 6px 3px 0px #32325d40, -2px 5px 3px -1px #0000004d;
+                            color: #721c24;
+                            background-color: #f8d7da;
+                            border-color: transparent;
+                            border: 0px solid transparent;
+                        }
+
+                        &:last-child{
+                            text-align: center;
+                        }
+                    }
+                }
+            }
             caption-side: top;
             tr{
                 td{
@@ -84,6 +110,10 @@
                 padding-top: 50px;
                 font-size: 25px;
             }
+        }
+
+        .segment-input{
+            width: 30px;
         }
     }
 
