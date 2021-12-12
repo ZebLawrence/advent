@@ -42,6 +42,19 @@
         }
 
         table{
+
+            &.basin-table{
+                tr{
+                    td{
+                        width: 30px;
+                        height: 30px;
+                        padding: 0px;
+                        line-height: 30px;
+                        text-align: center !important;
+                    }
+                }
+            }
+
             &.digit{
                 margin: 15px;
                 tr{
