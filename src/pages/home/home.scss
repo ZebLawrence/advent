@@ -55,6 +55,19 @@
                 }
             }
 
+            &.folding-table{
+                tr{
+                    td{
+                        width: 15px;
+                        height: 15px;
+                        padding: 0px;
+                        line-height: 15px;
+                        text-align: center !important;
+                        font-size: 15px;
+                    }
+                }
+            }
+
             &.digit{
                 margin: 15px;
                 tr{

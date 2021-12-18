@@ -45,9 +45,7 @@ class Day1 extends Component {
       caveMap[to].push(from);
     });
 
-    console.log('The map', caveMap);
     const foundPaths = [];
-    const foundPathsPartTwo = [];
 
     function traverseNodes(node, visited, paths, visitedTwice) {
       visited.push(node);
@@ -75,10 +73,7 @@ class Day1 extends Component {
       }
     }
   
-
     traverseNodes('start', [], foundPaths, false);
-
-    console.log('The found paths', foundPaths);
 
     const timeEnd = Date.now();
     return (
