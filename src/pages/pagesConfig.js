@@ -145,6 +145,20 @@ const day14_2021 = {
     path: '/day14-2021'
 };
 
+const day15_2021 = {
+    name: 'Day 15',
+    bodyClass: 'home',
+    componentPath: 'advent2021/Day15',
+    path: '/day15-2021'
+};
+
+const day17_2021 = {
+    name: 'Day 17',
+    bodyClass: 'home',
+    componentPath: 'advent2021/Day17',
+    path: '/day17-2021'
+};
+
 const routeError = {
     name: 'Route Error',
     componentPath: 'routeError/routeError',
@@ -172,6 +186,8 @@ const pages = {
     day12_2021,
     day13_2021,
     day14_2021,
+    day15_2021,
+    day17_2021,
     routeError
 };
 
@@ -195,6 +211,8 @@ const navItems = [
     day12_2021,
     day13_2021,
     day14_2021,
+    day15_2021,
+    day17_2021,
     tree_2020
 ];
 

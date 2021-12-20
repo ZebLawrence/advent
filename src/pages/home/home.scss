@@ -43,6 +43,18 @@
 
         table{
 
+            &.chiton-table{
+                tr{
+                    td{
+                        padding: 0;
+                        width: 15px;
+                        height: 15px;
+                        line-height: 15px;
+                        font-size: 12px;
+                        text-align: center !important;
+                    }
+                }
+            }
             &.basin-table{
                 tr{
                     td{

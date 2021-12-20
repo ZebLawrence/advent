@@ -24,12 +24,27 @@ class Chart extends Component {
     const chartOptions = {
       title: { text: title },
       xAxis: {
-        categories: xPoints,
+        categories: xPoints
       },
       series: seriesData,
       yAxis: {
         type: useLog ? 'logarithmic' : 'linear'
-      }
+      },
+      plotOptions: {
+        area: {
+            pointStart: 0,
+            marker: {
+                enabled: false,
+                symbol: 'circle',
+                radius: 2,
+                states: {
+                    hover: {
+                        enabled: true
+                    }
+                }
+            }
+        }
+    },
     };
     return (
       <div>
