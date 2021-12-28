@@ -33,6 +33,7 @@ class Home extends Component {
           <Link to="/day14-2021">Day 14</Link>
           <Link to="/day15-2021">Day 15</Link>
           <Link to="/day17-2021">Day 17</Link>
+          <Link to="/day19-2021">Day 19</Link>
         </div>
         <div>
           Advent of code 2020
