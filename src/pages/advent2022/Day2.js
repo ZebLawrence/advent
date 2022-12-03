@@ -8,7 +8,7 @@ import {
   sample,
   puzzle1
 } from '../../puzzles/2022/day2';
-import '../../assets/home.scss';
+
 
 function Day2() {
 

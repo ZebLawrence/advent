@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import day3 from '../../puzzles/day3';
-import '../../assets/home.scss';
+
 
 class Day3 extends Component {
   constructor(props){

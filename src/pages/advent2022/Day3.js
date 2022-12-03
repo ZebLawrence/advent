@@ -9,7 +9,7 @@ import {
   sample,
   puzzle1
 } from '../../puzzles/2022/day3';
-import '../../assets/home.scss';
+
 
 function Day3() {
 

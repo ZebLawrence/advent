@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import day2 from '../../puzzles/day2';
-import '../../assets/home.scss';
+
 
 class Day2 extends Component {
   constructor(props){
