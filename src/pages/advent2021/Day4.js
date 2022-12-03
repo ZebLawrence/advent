@@ -6,7 +6,7 @@ import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
 import Body from '../../components/Body';
 import BingoBoard from './BingoBoard';
-import '../home/home.scss';
+import '../../assets/home.scss';
 
 class Day1 extends Component {
   constructor(props){

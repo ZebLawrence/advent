@@ -1,6 +1,13 @@
 
 
 .home{
+    .nav-link{
+        padding-right: 0px;
+        &.active{
+            color:#721c24;
+            text-decoration: underline;
+        }
+    }
     a{
         display: block;
     }
@@ -198,4 +205,11 @@
         overflow: auto;
     }
 
+    .elf{
+        background-image: url('../assets/images/elf-icegif-2.gif');
+        width: 100px;
+        height: 100px;
+        background-size: contain;
+        text-align: center;
+    }
 }

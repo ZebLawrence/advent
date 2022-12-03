@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { pages } from '../../pages/pagesConfig';
 import './pageContainer.scss';
 
-class PageContainer extends Component {
-  render() {
+function PageContainer({ children }) {
 
     const getConatinerClass = () => {
-        let currentPath = this.props.location.pathname;
+        const location = useLocation();
+        let currentPath = location.pathname;
         let pageClass = 'route-error';
 
         Object.keys(pages).forEach(key => {
@@ -21,10 +21,9 @@ class PageContainer extends Component {
 
     return (
         <div className={getConatinerClass()}>
-            {this.props.children}
+            {children}
         </div>
     );
-  }
 }
 
-export default withRouter(PageContainer);
+export default PageContainer;

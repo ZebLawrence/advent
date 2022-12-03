@@ -1,30 +1,29 @@
 import React, { Component } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   Navbar,
-  NavbarBrand
+  NavbarBrand,
+  NavLink,
+  Nav
 } from 'reactstrap';
 
-class Navigation extends Component {
-  constructor(props) {
-    super(props);
+function Navigation() {
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false
-    };
+  const location = useLocation();
+  const { pathname } = location;
+  const isMatch = link => {
+    return pathname.indexOf(link) > -1;
   }
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-  render() {
-    return (
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">Advent of code</NavbarBrand>
-      </Navbar>
-    );
-  }
-}
+  return (
+    <Navbar color="light" light expand="md">
+      <NavbarBrand href="/">Advent of code</NavbarBrand>
+      <Nav>
+        <NavLink active={isMatch('2020')} href="/2020">2020</NavLink>
+        <NavLink active={isMatch('2021')} href="/2021">2021</NavLink>
+        <NavLink active={isMatch('2022') || pathname === '/'} href="/2022">2022</NavLink>
+      </Nav>
+    </Navbar>
+  );
+};
 
 export default Navigation;

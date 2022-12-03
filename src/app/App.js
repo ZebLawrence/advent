@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Container } from "reactstrap";
 import Nav from '../components/nav/nav';
 import asyncComponent from '../components/asyncComponent/asyncComponent';
@@ -15,17 +15,17 @@ class App extends Component {
         <PageContainer>
           <Container>
             <Nav/>
-            <Switch>
+            <Routes>
               {
                 Object.keys(pages).map(pageKey => {
                   const page = pages[pageKey];
-                  const component = asyncComponent(() => import(`../pages/${page.componentPath}`));
+                  const Component = asyncComponent(() => import(`../pages/${page.componentPath}`));
                   return(
-                    <Route key={page.componentPath} exact path={page.path} component={component}/>
+                    <Route key={page.componentPath} exact path={page.path} element={<Component />}/>
                   );
                 })
               }
-            </Switch>
+            </Routes>
           </Container>
         </PageContainer> 
       </Router>

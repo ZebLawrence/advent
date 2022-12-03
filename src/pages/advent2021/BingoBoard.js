@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardTitle, CardBody } from 'reactstrap';
-import '../home/home.scss';
+import '../../assets/home.scss';
 
 class BingoBoard extends Component {
   constructor(props){

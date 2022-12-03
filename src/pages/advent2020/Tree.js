@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../home/home.scss';
+import '../../assets/home.scss';
 
 class Tree extends Component {
   constructor(props){

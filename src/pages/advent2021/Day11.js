@@ -6,7 +6,7 @@ import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
 import Body from '../../components/Body';
 import Otcopus from './Otcopus';
-import '../home/home.scss';
+import '../../assets/home.scss';
 
   const { octopusGrid } = puzzleInput;
   const octopusMap = octopusGrid.map(row => {

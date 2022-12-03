@@ -3,7 +3,7 @@ import { Button } from 'reactstrap';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
 import Body from '../../components/Body';
-import '../home/home.scss';
+import '../../assets/home.scss';
 
 class Day1 extends Component {
   constructor(props){

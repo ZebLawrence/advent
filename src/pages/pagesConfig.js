@@ -1,15 +1,15 @@
 const home = {
     name: 'Total',
     bodyClass: 'home',
-    componentPath: 'home/home',
+    componentPath: 'advent2022/home2022',
     path: '/'
 };
 
 const advent2020 = {
     name: '2020',
     bodyClass: 'home',
-    componentPath: 'home/home2020',
-    path: '/'
+    componentPath: 'advent2020/home2020',
+    path: '/2020'
 };
 
 const day1_2020 = {
@@ -45,6 +45,17 @@ const tree_2020 = {
     bodyClass: 'home',
     componentPath: 'advent2020/Tree',
     path: '/tree-2020'
+};
+
+/**
+ * 2021
+ */
+
+const advent2021 = {
+    name: '2021',
+    bodyClass: 'home',
+    componentPath: 'advent2021/home2021',
+    path: '/2021'
 };
 
 const day1_2021 = {
@@ -166,6 +177,45 @@ const day19_2021 = {
     path: '/day19-2021'
 };
 
+/**
+ * 2022
+ */
+const advent2022 = {
+    name: '2022',
+    bodyClass: 'home',
+    componentPath: 'advent2022/home2022',
+    path: '/2022'
+};
+
+const day1_2022 = {
+    name: 'Day 1',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day1',
+    path: '/day1-2022'
+};
+
+const day2_2022 = {
+    name: 'Day 2',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day2',
+    path: '/day2-2022'
+};
+const day3_2022 = {
+    name: 'Day 3',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day3',
+    path: '/day3-2022'
+};
+const day4_2022 = {
+    name: 'Day 4',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day4',
+    path: '/day4-2022'
+};
+
+/**
+ * Error
+ */
 const routeError = {
     name: 'Route Error',
     componentPath: 'routeError/routeError',
@@ -173,12 +223,14 @@ const routeError = {
 };
 
 const pages = {
+    home,
     advent2020,
     day1_2020,
     day2_2020,
     day3_2020,
     day25_2020,
     tree_2020,
+    advent2021,
     day1_2021,
     day2_2021,
     day3_2021,
@@ -196,6 +248,11 @@ const pages = {
     day15_2021,
     day17_2021,
     day19_2021,
+    advent2022,
+    day1_2022,
+    day2_2022,
+    day3_2022,
+    day4_2022,
     routeError
 };
 
@@ -205,6 +262,7 @@ const navItems = [
     day2_2020,
     day3_2020,
     day25_2020,
+    advent2021,
     day1_2021,
     day2_2021,
     day3_2021,
@@ -222,6 +280,7 @@ const navItems = [
     day15_2021,
     day17_2021,
     day19_2021,
+    advent2022,
     tree_2020
 ];
 
