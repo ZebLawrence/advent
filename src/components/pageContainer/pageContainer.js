@@ -11,7 +11,7 @@ function PageContainer({ children }) {
         let pageClass = 'route-error';
 
         Object.keys(pages).forEach(key => {
-            if(pages[key].path === currentPath){
+            if(currentPath,indexOf(pages[key].path) > -1){
                 pageClass = pages[key].bodyClass;
             }
         });
