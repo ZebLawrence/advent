@@ -177,6 +177,13 @@ const day19_2021 = {
     path: '/day19-2021'
 };
 
+const day24_2021 = {
+    name: 'Day 24',
+    bodyClass: 'home',
+    componentPath: 'advent2021/Day24',
+    path: '/day24-2021'
+};
+
 /**
  * 2022
  */
@@ -248,6 +255,7 @@ const pages = {
     day15_2021,
     day17_2021,
     day19_2021,
+    day24_2021,
     advent2022,
     day1_2022,
     day2_2022,
