@@ -232,6 +232,12 @@ const day5_2022 = {
     componentPath: 'advent2022/Day5',
     path: '/day5-2022'
 };
+const day6_2022 = {
+    name: 'Day 6',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day6',
+    path: '/day6-2022'
+};
 
 /**
  * Error
@@ -276,6 +282,7 @@ const pages = {
     day3_2022,
     day4_2022,
     day5_2022,
+    day6_2022,
     routeError
 };
 

@@ -21,6 +21,7 @@ class Home extends Component {
         <Link to="/day3-2022">Day 3</Link>
         <Link to="/day4-2022">Day 4</Link>
         <Link to="/day5-2022">Day 5</Link>
+        <Link to="/day6-2022">Day 6</Link>
       </div>
     );
   }

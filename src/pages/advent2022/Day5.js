@@ -83,7 +83,7 @@ function Day5() {
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
-      <Title message="Day 3 2022" />
+      <Title message="Day 5 2022" />
       <Body>
         <Button size="sm" onClick={() => {
           setMoves(parseTextByLines(sample.moves).map(m => parseMove(m)));
