@@ -15,29 +15,25 @@ class Alu {
     this.x = 0;
     this.y = 0;
     this.z = 0;
-    this.startInt = startInt;
+    this.startInt = `${startInt}`;
     this.instructions = instructions;
-
-  }
-
-  parseStartValue() {
-    const [input] = this.instructions;
-    const [inp, varLetter] = input.split(' ');
-    this[varLetter] = Number(this.startInt);
-    this.instructions.shift();
+    this.index = 0;
   }
 
   runInstructions() {
     this.instructions.forEach(instruction => {
       const [funcName, varA, varB] = instruction.split(' ');
       if (funcName === 'inp') {
-        this.w = Number(varA);
+        // console.log(`Setting ${varA} to`, Number(this.startInt[this.index]));
+        this[varA] = Number(this.startInt[this.index]);
+        this.index += 1;
       } else {
         let localB = isNaN(varB)
           ? this[varB]
           : Number(varB);
-        
-        this[funcName](this[varA], localB);
+        // console.log('Calling', funcName, varA, localB);
+        // console.log('This', this);
+        this[funcName](varA, localB);
       }
     });
   }
@@ -74,8 +70,31 @@ function Day24() {
 
   const [puzzle, setPuzzle] = useState(parseTextByLines(sample));
   const timeStart = Date.now();
+  let validModel = null;
+  // for (let index = 99999999999999; index > 0; index -= 1) {
+  //   const numString = `${index}`;
+    
+  //   if (numString.indexOf('0') === -1) {
+  //     const alu = new Alu(puzzle, 13579246899999);
+  //     alu.runInstructions();
 
-  console.log('the safetyGroups', puzzle);
+  //     if (alu.z === 0) {
+  //       console.log('Valid', index);
+  //       validModel = index;
+  //       break;
+  //     } else {
+  //       console.log('Not valid', index);
+  //     }
+  //   }
+  // }
+
+  const alu = new Alu(puzzle, 91398299697996);
+  alu.runInstructions();
+
+  console.log('--------------------------------');
+  console.log('the instructions', puzzle);
+  console.log('the validModel', alu);
+
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
@@ -88,7 +107,7 @@ function Day24() {
         info
       </Body>
       <Body>
-        TBD
+        Valid model number: {validModel}
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>

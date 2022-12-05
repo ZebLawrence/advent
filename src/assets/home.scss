@@ -216,4 +216,21 @@
         background-size: contain;
         text-align: center;
     }
+
+    .cucumber-cell{
+        width: 15px !important;
+        height: 15px !important;
+        text-align: center !important;
+        line-height: 15px;
+        font-size: 10px;
+        padding: 0px !important;
+
+        &.good-result{
+            background-color: rgb(161, 255, 255);
+        }
+
+        &.bad-result{
+            background-color: rgb(250, 174, 174);
+        }
+    }
 }

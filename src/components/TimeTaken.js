@@ -17,7 +17,7 @@ const TimeTaken = ({ start, end }) => {
         <div>
             <hr />
             <Alert color={color}>
-                Time taken: {total}
+                Time taken: {total}ms
             </Alert>
         </div>
     );

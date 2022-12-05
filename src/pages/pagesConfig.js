@@ -184,6 +184,13 @@ const day24_2021 = {
     path: '/day24-2021'
 };
 
+const day25_2021 = {
+    name: 'Day 25',
+    bodyClass: 'home',
+    componentPath: 'advent2021/Day25',
+    path: '/day25-2021'
+};
+
 /**
  * 2022
  */
@@ -218,6 +225,12 @@ const day4_2022 = {
     bodyClass: 'home',
     componentPath: 'advent2022/Day4',
     path: '/day4-2022'
+};
+const day5_2022 = {
+    name: 'Day 5',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day5',
+    path: '/day5-2022'
 };
 
 /**
@@ -256,11 +269,13 @@ const pages = {
     day17_2021,
     day19_2021,
     day24_2021,
+    day25_2021,
     advent2022,
     day1_2022,
     day2_2022,
     day3_2022,
     day4_2022,
+    day5_2022,
     routeError
 };
 
