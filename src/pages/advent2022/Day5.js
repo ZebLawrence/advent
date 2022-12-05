@@ -11,13 +11,11 @@ import {
 
 function Day5() {
 
-  const [puzzle, setPuzzle] = useState(sample);
+  const [moves, setMoves] = useState(parseTextByLines(sample.moves).map(m => parseMove(m)));
+  const [stacks1, setStacks1] = useState(sample.stacks);
+  const [stacks2, setStacks2] = useState(sample.stacks2);
   const timeStart = Date.now();
 
-  const stacksState1 = {...puzzle.stacks};
-  const stacksState2 = {...puzzle.stacks2};
-  let moves = parseTextByLines(puzzle.moves);
-  
   function parseMove(move) {
     return move.replace('move ', '')
       .replace(' from ', ',')
@@ -39,44 +37,134 @@ function Day5() {
     }
   }
 
-  moves.forEach(move => {
-    const moveInput = parseMove(move);
-    performMoves(stacksState1, ...moveInput);
-  });
+  const handleStart = () => {
+    moves.forEach(move => {
+      performMoves(stacks1, ...move);
+    });
+    setStacks1({...stacks1});
 
-  const topCrates1 = Object.keys(stacksState1).map(key => {
-    const stack = stacksState1[key];
+    moves.forEach(move => {
+      performMoves(stacks2, ...move, true);
+    });
+    setStacks2({...stacks2});
+  };
+
+  const topCrates1 = Object.keys(stacks1).map(key => {
+    const stack = stacks1[key];
+    return stack[stack.length - 1];
+  });
+  const topCrates2 = Object.keys(stacks2).map(key => {
+    const stack = stacks2[key];
     return stack[stack.length - 1];
   });
 
-  moves.forEach(move => {
-    const moveInput = parseMove(move);
-    performMoves(stacksState2, ...moveInput, true);
-  });
+  const pivotObject = table => {
+    const rows = [];
+    const stacks = Object.keys(table).map(key => table[key]);
+    const tallestStack = Math.max(...stacks.map(o => o.length))
 
-  const topCrates2 = Object.keys(stacksState2).map(key => {
-    const stack = stacksState2[key];
-    return stack[stack.length - 1];
-  });
+    for (let ri = (tallestStack - 1); ri >= 0; ri -= 1) {
+      const row = [];
+
+      stacks.forEach((col, ci) => {
+        const cell = stacks[ci] && stacks[ci][ri]
+          ? stacks[ci][ri]
+          : '';
+          row.push(cell);
+      });
+      rows.push(row);
+    }
+    return rows;
+  };
+
+  const rows1 = pivotObject(stacks1);
+  const rows2 = pivotObject(stacks2);
 
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
       <Title message="Day 3 2022" />
       <Body>
-        <Button size="sm" onClick={() => setPuzzle(sample)}>Sample</Button>
-        <Button size="sm" onClick={() => setPuzzle(puzzle1)}>Full Puzzle</Button>
-        {/* <Button onClick={() => setPuzzle(puzzle2)}>Puzzle 2</Button> */}
+        <Button size="sm" onClick={() => {
+          setMoves(parseTextByLines(sample.moves).map(m => parseMove(m)));
+          setStacks1({...sample.stacks});
+          setStacks2({...sample.stacks2});
+        }}>Sample</Button>
+        <Button size="sm" onClick={() => {
+          setMoves(parseTextByLines(puzzle1.moves).map(m => parseMove(m)));
+          setStacks1({...puzzle1.stacks})
+          setStacks2({...puzzle1.stacks2})
+        }}>Full Puzzle</Button>
+        <Button size="sm" onClick={handleStart}>Start Moves</Button>
         <br />
         info
       </Body>
       <Body>
-        Crates on top part 1: {topCrates1}
-        <table>
-          
-        </table>
+        <div>
+          Crates on top part 1: {topCrates1}
+          <table>
+            <tbody>
+              {
+                rows1.map((row, ri) => {
+                  const rowKey = `row-stack1-${ri}`;
+                  return (
+                    <tr key={rowKey}>
+                      {
+                        row.map((cell, ci) => {
+                          const cellKey = `cell-stack1-${ri}-${ci}`;
+                          return (<td key={cellKey}>{cell}</td>);
+                        })
+                      }
+                    </tr>
+                  );
+                })
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                {
+                  Object.keys(stacks1).map((row, hi) => {
+                    const thKey = `row-stack1-th-${hi}`;
+                    return (<th key={thKey} className="text-center">{(hi + 1)}</th>);
+                  })
+                }
+              </tr>
+            </tfoot>
+          </table>
+        </div>
         <br />
-        Crates on top part 2: {topCrates2}
+        <div>
+          Crates on top part 2: {topCrates2}
+          <table>
+            <tbody>
+              {
+                rows2.map((row, ri) => {
+                  const rowKey = `row-stack2-${ri}`;
+                  return (
+                    <tr key={rowKey}>
+                      {
+                        row.map((cell, ci) => {
+                          const cellKey = `cell-stack2-${ri}-${ci}`;
+                          return (<td key={cellKey}>{cell}</td>);
+                        })
+                      }
+                    </tr>
+                  );
+                })
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                {
+                  Object.keys(stacks1).map((row, hi) => {
+                    const thKey = `row-stack2-th-${hi}`;
+                    return (<th key={thKey} className="text-center">{(hi + 1)}</th>);
+                  })
+                }
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>
