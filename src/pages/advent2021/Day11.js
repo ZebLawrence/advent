@@ -76,7 +76,7 @@ class Day1 extends Component {
 
 
     let stepFlashes = 0;
-    let steps = 1000;
+    let steps = 1;
     let go = true;
     let stepsToAll = 0;
 
