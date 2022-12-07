@@ -11,87 +11,81 @@ import {
 
 function Day7() {
 
-
-  function parseFolders(input) {
-    const folderMap = {};
-    input.split('$ cd ').filter(i => i).forEach(directorySet => {
-      // console.log('Directory set', directorySet);
-      const [dirName, listCommand, ...contents] = directorySet.split('\n').filter(ds => ds);
-
-      if (dirName !== '..') {
-        if (!folderMap[`dir ${dirName}`]) {
-          // console.log('There was already a map for folder', dirName, folderMap[`dir ${dirName}`]);
-          // console.log('Attempting to add contents', contents);
-          folderMap[`dir ${dirName}`] = [];
+  const parseCommand = (lineInput, workingDir, directoryTree) => {
+    if (lineInput[0] === 'cd') {
+        const argument = lineInput[1];
+        if (argument === '/') {
+          workingDir = directoryTree;
+        } else if (argument === '..') {
+          workingDir = workingDir.parent;
+        } else if (argument.match(/[a-z]/)) {
+          workingDir = workingDir.children.find(x => x.name === argument);
         }
-
-        let folderTotal = 0;
-        if (folderMap[`dir ${dirName}`] && folderMap[`dir ${dirName}`][folderMap[`dir ${dirName}`].length - 1]) {
-          folderTotal = folderMap[`dir ${dirName}`][folderMap[`dir ${dirName}`].length - 1];
-          folderMap[`dir ${dirName}`].pop();
-        }
-
-        folderMap[`dir ${dirName}`] = [...folderMap[`dir ${dirName}`] ,...contents.map(fileOrDirName => {
-          if (fileOrDirName.indexOf('dir') > -1) {
-            return fileOrDirName;
-          } else {
-            const [size, fileName] = fileOrDirName.split(' ');
-            //console.log('Adding', Number(size))
-            //console.log('to', folderTotal)
-            folderTotal += Number(size);
-            return null;
-          }
-        }), folderTotal].filter(c => c);
-      }
-
-    });
-    return folderMap;
+    }
+ 
+    return workingDir;
+  }
+  
+  const parseDir = (lineInput, workingDir) => 
+      workingDir.children.push({ name: lineInput[0], children: [], files: [], parent: workingDir });
+  
+  const parseFile = (lineInput, showingDir) => 
+      showingDir.files.push({ size: parseInt(lineInput[0]), name: lineInput[1]});
+  
+  const getFolderSizes = ({ name, files, children }) => {
+      const size = files.reduce((prev, curr) => prev += curr.size, 0);
+      const childDirectories = children.map(getFolderSizes);
+      const childDirectoriesSize = childDirectories.map(x => x[0]).reduce((prev, curr) => prev += curr.size, 0);
+  
+      return [{ name, size: size + childDirectoriesSize }, ...childDirectories.flat()];
   }
 
-  const [puzzle, setPuzzle] = useState(parseFolders(puzzle1));
+  const [puzzle, setPuzzle] = useState(parseTextByLines(sample1));
   const timeStart = Date.now();
 
-  const directoryTotals = {};
-  let directorysLessThan100k = 0;
+  const directoryTree = { name: '/', children: [], files: [], parent: null };
+  let workingDir = directoryTree;
 
-  // Object.keys(puzzle).forEach(key => {
-  //   let directoryTotal = 0;
-  //   const sumDirectory = keyOrSize => {
-  //     if(typeof keyOrSize === 'string') {
-  //       puzzle[keyOrSize].forEach(sumDirectory);
-  //     } else {
-  //       directoryTotal += keyOrSize;
-  //     }
-  //   };
-  //   const directoryItems = puzzle[key];
-  //   directoryItems.forEach(sumDirectory);
-  //   directoryTotals[key] = directoryTotal;
-  //   if (directoryTotal < 100000) {
-  //     directorysLessThan100k += directoryTotal;
-  //   }
-  // });
+  for(const command of puzzle) {
+      const lineInput = command.split(' ');
 
-  console.log('The puzzle', puzzle);
-  console.log('The directoryTotals', directoryTotals);
+      if (lineInput[0] === '$') {
+          workingDir = parseCommand(lineInput.slice(1), workingDir, directoryTree);
+      }
+      else if (lineInput[0] === 'dir') {
+          parseDir(lineInput.slice(1), workingDir);
+      }
+      else if (lineInput[0].match(/[0-9]/)) {
+          parseFile(lineInput, workingDir);
+      }
+  }
 
-  // 863530 too low
+  const folders = getFolderSizes(directoryTree);
+
+  const directorysLessThan100k = folders
+    .filter(x => x.size <= 100000)
+    .reduce((prev, curr) => prev + curr.size , 0);
+
+  const requiredRootFolderSize = 30000000;
+  const freeSpace = 70000000 - folders.find(x => x.name === '/').size;
+  const sizeToDelete = requiredRootFolderSize - freeSpace;
+  const directoryToDelete = folders
+    .filter(x => x.size - sizeToDelete > 0)
+    .sort((a, b) => sizeToDelete - a.size < sizeToDelete - b.size ? 1 : -1)[0].size;
 
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
       <Title message="Day 7 2022" />
       <Body>
-        <Button size="sm" onClick={() => setPuzzle(parseFolders(sample1))}>Sample 1</Button>
-        {/* <Button size="sm" onClick={() => setPuzzle(sample2)}>Sample 2</Button>
-        <Button size="sm" onClick={() => setPuzzle(sample3)}>Sample 3</Button>
-        <Button size="sm" onClick={() => setPuzzle(sample4)}>Sample 4</Button>
-        <Button size="sm" onClick={() => setPuzzle(sample5)}>Sample 5</Button> */}
-        <Button size="sm" onClick={() => setPuzzle(parseFolders(puzzle1))}>Full Puzzle</Button>
-        {/* <Button size="sm" onClick={() => setPuzzle(parseTextByLines(puzzle1))}>Full Puzzle</Button> */}
+        <Button size="sm" onClick={() => setPuzzle(parseTextByLines(sample1))}>Sample 1</Button>
+        <Button size="sm" onClick={() => setPuzzle(parseTextByLines(puzzle1))}>Full Puzzle</Button>
         <br />
       </Body>
       <Body>
-        Directorys less than 100000 sumed {directorysLessThan100k}
+        Directories less than 100000 sumed {directorysLessThan100k}
+        <br />
+        Delete directory of size {directoryToDelete}
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>
