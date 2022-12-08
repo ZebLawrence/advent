@@ -73,6 +73,29 @@ function Day7() {
     .filter(x => x.size - sizeToDelete > 0)
     .sort((a, b) => sizeToDelete - a.size < sizeToDelete - b.size ? 1 : -1)[0].size;
 
+
+  const renderFolders = ({ name, files, children}) => {
+    const list = [<li>📂 {name}</li>];
+
+    if (children && children.length) {
+      list.push(<li>{children.map(renderFolders)}</li>);
+    }
+
+    if (files && files.length) {
+      files.forEach(({ size, name: fileName }) => {
+        list.push(<li>📄 {fileName} : <span className="text-muted font-italic">{size}</span></li>);
+      });
+    }
+
+    return (
+      <ul className="files">{list}</ul>
+    );
+  };
+
+  const renderedFolders = renderFolders(directoryTree);
+
+  console.log('The directory tree', directoryTree);
+
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
@@ -86,6 +109,7 @@ function Day7() {
         Directories less than 100000 sumed {directorysLessThan100k}
         <br />
         Delete directory of size {directoryToDelete}
+        <div>{renderedFolders}</div>
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>
