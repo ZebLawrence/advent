@@ -233,4 +233,28 @@
             background-color: rgb(250, 174, 174);
         }
     }
+
+    .trees-table{
+        tr{
+            td{
+                padding: 3px !important;
+                line-height: 10px;
+                font-size: 15px;
+                &.grey{
+                    background-color: #ccc;
+                }
+                &.good-result{
+                    background-color: rgb(161, 255, 255);
+                }
+        
+                &.bad-result{
+                    background-color: rgb(250, 174, 174);
+                }
+                
+                &.neutral-result{
+                    background-color: rgb(163, 192, 248);
+                }
+            }
+        }
+    }
 }

@@ -82,8 +82,13 @@ function Day8() {
 
   let visibleTrees = 0;
   let highestSenicScore = 0;
+  let highestScoreRow = 0;
+  let highestScoreCol = 0;
+  let bestTreeHeight = 0;
   // add the edgeTrees | top plus bottom plus sides
   visibleTrees += (puzzle[0].length * 2) + ((puzzle.length - 2) * 2);
+
+  const treeRows = [];
 
   rows.forEach((row, ri) => {
     row.forEach((cell, ci) => {
@@ -110,6 +115,9 @@ function Day8() {
 
           if (score > highestSenicScore) {
             highestSenicScore = score;
+            highestScoreRow = ri;
+            highestScoreCol = ci;
+            bestTreeHeight = cell;
           }
         }
     });
@@ -129,6 +137,37 @@ function Day8() {
         Visible trees: {visibleTrees}
         <br />
         Highest Scenic Score: {highestSenicScore}
+        <div>
+          <table className="trees-table">
+            <tbody>
+              {
+                rows.map((row, ri) => {
+                  const rowKey = `table-row-${ri}`;
+                  return (
+                    <tr key={rowKey}>
+                      {
+                        row.map((cell, ci) => {
+                          const cellKey = `cell-${ri}-${ci}`;
+                          let cellClass = 'grey';
+                          if (ci === highestScoreCol && ri === highestScoreRow) {
+                            cellClass = 'good-result';
+                          } else if ((ci === highestScoreCol || ri === highestScoreRow) && cell >= bestTreeHeight) {
+                            cellClass = 'bad-result';
+                          } else if ((ci === highestScoreCol || ri === highestScoreRow)) {
+                            cellClass = 'neutral-result'
+                          }
+                          return (
+                            <td key={cellKey} className={cellClass}>{cell}</td>
+                          );
+                        })
+                      }
+                    </tr>
+                  );
+                })
+              }
+            </tbody>
+          </table>
+        </div>
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>
