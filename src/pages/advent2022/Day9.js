@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
-import { last } from 'lodash';
+import { take } from 'lodash';
 import Body from '../../components/Body';
 import { parseTextByLines } from '../../util/textParseHelpers';
 import {
   sample1,
+  sample2,
   puzzle1
 } from '../../puzzles/2022/day9';
 
@@ -21,12 +22,13 @@ class Knot {
   }
 
   move(x, y) {
-    console.log('The move hit', x, y);
+    // console.log('The move hit', x, y);
     this.coordinates = [x, y];
     this.moves.push([x, y]);
     this.positions[`${x}-${y}`] = [x, y];
 
     if (this.nextKnot) {
+      // console.log('Telling the next knot the parent moved')
       this.nextKnot.parentMoved(this.coordinates);
     }
   }
@@ -45,7 +47,9 @@ class Knot {
     }
   };
 
-  getNewCoordinates(parentX, parentY) {
+  getNewCoordinates([parentX, parentY]) {
+    // console.log('Get new child coordinates -----------------------------');
+    // console.log('The parent is at ', parentX, parentY)
     const [myX, myY] = [...this.coordinates];
     let newX = myX;
     let newY = myY;
@@ -62,7 +66,7 @@ class Knot {
       newY = parentIsAbove ? myY + 1 : myY - 1;
     } else if (!isOnSameCol && isOnSameRow) {
       // needs to move left or right X
-      newX = parentIsRight ? myX + 1 : my - 1;
+      newX = parentIsRight ? myX + 1 : myX - 1;
     } else if (!isOnSameCol && !isOnSameRow) {
       // needs to move up down left or right diagonal
       if (parentIsAbove && parentIsRight) {
@@ -88,6 +92,7 @@ class Knot {
   }
 
   parentMoved([x, y]) {
+    // console.log('The parent moved to', x, y);
     // the parent knot has moved to x, y
     // should I move
     const shouldMove = this.shouldMove(x, y);
@@ -95,13 +100,10 @@ class Knot {
     if (shouldMove) {
       const [newX, newY] = this.getNewCoordinates([x, y]);
       // if I should move pass new coordinates to 
-      // this.move()
       this.move(newX, newY);
     }
   }
 }
-
-
 
 
 function Day9() {
@@ -111,43 +113,9 @@ function Day9() {
   const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
   const timeStart = Date.now();
  
-  // const tailPositions = {
-  //   '0-0': [0, 0]
-  // };
-
-  // let tailMoves = 0;
-  // let allHeadMoves = [0, 0];
-  // // x, y
-  // // LR, UD
   let headCoordinates = [0, 0];
-  // let tailCoordinates = [0, 0];
 
-  // const shouldTailMove = () => {
-  //   const [headX, headY] = [...headCoordinates];
-  //   const [tailX, tailY] = [...tailCoordinates];
-  //   // left right and up down
-  //   if ((Math.max(headX, tailX) - Math.min(headX, tailX) == 2) || (Math.max(headY, tailY) - Math.min(headY, tailY) == 2)) {
-  //     return true;
-  //   }
-  // };
-
-  // const moveTail = () => {
-  //   // const [previousTailX, previousTailY] = [...tailCoordinates];
-  //   const mustMove = shouldTailMove();
-
-  //   if (mustMove) {
-  //     // console.log('Tail must move, previous head pos', allHeadMoves)
-  //     const [prevHeadX, prevHeadY] = allHeadMoves[allHeadMoves.length - 2];
-  //     tailCoordinates = [prevHeadX, prevHeadY];
-  //     tailPositions[`${prevHeadX}-${prevHeadY}`] = [prevHeadX, prevHeadY];
-  //     console.log('Tail X,Y', prevHeadX, prevHeadY);
-  //   }
-  // };
-
-
-
-
-  const knotCount = 2;
+  const knotCount = 10;
   const knots = [];
 
   for (let index = 0; index < knotCount; index += 1) {
@@ -159,13 +127,12 @@ function Day9() {
     const knot = knots[index];
 
     if (knots[index + 1]) {
-      knots.setNextKnot(knots[index + 1]);
+      knot.setNextKnot(knots[index + 1]);
     }
   }
 
 
   const moveHead = (direction, steps) => {
-    // console.log('moving head', direction, steps);
     const [previousX, previousY] = [...headCoordinates];
     let newX = previousX;
     let newY = previousY;
@@ -184,21 +151,22 @@ function Day9() {
           newY -= 1;
         }
         headCoordinates = [newX, newY];
-        // allHeadMoves.push([newX, newY]);
-        // moveTail();
+
+        const [headKnot] = knots;
+        headKnot.move(newX, newY);
     }
-    const [headKnot] = knots;
-    headKnot.move
-    // console.log('New Head X,Y', newX, newY);
   }
 
+  // const shortPuzzle = take(puzzle, 2);
   puzzle.forEach(([direction, steps]) => {
-    // console.log('direction, steps', direction, steps)
+  // shortPuzzle.forEach(([direction, steps]) => {
     moveHead(direction, Number(steps));
   });
 
-  // console.log('All tail possitions after moves', tailPositions);
   
+  const tailPositions = knots[knots.length - 1].positions;
+  console.log('All knots', knots);
+  console.log('All tail possitions after moves', knots[knots.length - 1]);
 
   // console.log('The puzzle', puzzle);
   const timeEnd = Date.now();
@@ -207,6 +175,7 @@ function Day9() {
       <Title message="Day 8 2022" />
       <Body>
         <Button size="sm" onClick={() => setPuzzle(parsePuzzle(sample1))}>Sample 1</Button>
+        <Button size="sm" onClick={() => setPuzzle(parsePuzzle(sample2))}>Sample 2</Button>
         <Button size="sm" onClick={() => setPuzzle(parsePuzzle(puzzle1))}>Full Puzzle</Button>
         <br />
         Otherwise, if the head and tail aren't touching and aren't in the same row or column, the tail always moves one step diagonally to keep up:

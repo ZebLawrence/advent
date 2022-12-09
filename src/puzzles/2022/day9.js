@@ -8,6 +8,15 @@ D 1
 L 5
 R 2`;
 
+export const sample2 = `R 5
+U 8
+L 8
+D 3
+R 17
+D 10
+L 25
+U 20`;
+
 export const puzzle1 = `U 1
 L 1
 U 2
