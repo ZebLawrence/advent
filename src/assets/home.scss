@@ -258,6 +258,42 @@
         }
     }
 
+    .rope-table{
+        &.smaller{
+            tr{
+                td{
+                    width: 5px;
+                    height: 5px;
+                    line-height: 5px;
+                    font-size: 3px;       
+                }
+            }
+        }
+        tr{
+            td{
+                padding: 0px !important;
+                width: 21px;
+                height: 21px;
+                line-height: 10px;
+                font-size: 15px;
+                &.grey{
+                    background-color: #ccc;
+                }
+                &.good-result{
+                    background-color: rgb(161, 255, 255);
+                }
+        
+                &.bad-result{
+                    background-color: rgb(250, 174, 174);
+                }
+                
+                &.neutral-result{
+                    background-color: rgb(163, 192, 248);
+                }
+            }
+        }
+    }
+
     .files{
         list-style: none;
     }

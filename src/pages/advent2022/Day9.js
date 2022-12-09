@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Button } from 'reactstrap';
+import { Button, Input, Form, FormGroup } from 'reactstrap';
+import { flatten } from 'lodash';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
-import { take } from 'lodash';
 import Body from '../../components/Body';
 import { parseTextByLines } from '../../util/textParseHelpers';
 import {
@@ -10,112 +10,17 @@ import {
   sample2,
   puzzle1
 } from '../../puzzles/2022/day9';
-
-
-class Knot {
-  constructor() {
-    this.positions = {
-      '0-0': [0, 0]
-    };
-    this.coordinates = [0, 0];
-    this.moves = [[0, 0]];
-  }
-
-  move(x, y) {
-    // console.log('The move hit', x, y);
-    this.coordinates = [x, y];
-    this.moves.push([x, y]);
-    this.positions[`${x}-${y}`] = [x, y];
-
-    if (this.nextKnot) {
-      // console.log('Telling the next knot the parent moved')
-      this.nextKnot.parentMoved(this.coordinates);
-    }
-  }
-
-  setNextKnot(nextKnot) {
-    this.nextKnot = nextKnot;
-  }
-
-  shouldMove(parentX, parentY) {
-    const [myX, myY] = [...this.coordinates];
-    // left right and up down
-    if ((Math.max(parentX, myX) - Math.min(parentX, myX) == 2) || (Math.max(parentY, myY) - Math.min(parentY, myY) == 2)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  getNewCoordinates([parentX, parentY]) {
-    // console.log('Get new child coordinates -----------------------------');
-    // console.log('The parent is at ', parentX, parentY)
-    const [myX, myY] = [...this.coordinates];
-    let newX = myX;
-    let newY = myY;
-    // if the parent and I aren't touching and aren't in the same row or column, then I move one step diagonally to keep up
-
-    const isOnSameCol = myX === parentX;
-    const isOnSameRow = myY === parentY;
-    const parentIsAbove = parentY > myY;
-    const parentIsRight = parentX > myX;
-
-    // needs to move up or down Y
-    if (isOnSameCol && !isOnSameRow) {
-      // move one up or down
-      newY = parentIsAbove ? myY + 1 : myY - 1;
-    } else if (!isOnSameCol && isOnSameRow) {
-      // needs to move left or right X
-      newX = parentIsRight ? myX + 1 : myX - 1;
-    } else if (!isOnSameCol && !isOnSameRow) {
-      // needs to move up down left or right diagonal
-      if (parentIsAbove && parentIsRight) {
-        // move up and to the right
-        newX = myX + 1; 
-        newY = myY + 1; 
-      } else if (parentIsAbove && !parentIsRight) {
-        // move up and to the left
-        newX = myX - 1;
-        newY = myY + 1;
-      } else if (!parentIsAbove && parentIsRight) {
-        // move down and to the right
-        newX = myX + 1;
-        newY = myY - 1;
-      } else if (!parentIsAbove && !parentIsRight) {
-        // move down and to the left
-        newX = myX - 1;
-        newY = myY -1;
-      }
-    }
-
-    return ([newX, newY]);
-  }
-
-  parentMoved([x, y]) {
-    // console.log('The parent moved to', x, y);
-    // the parent knot has moved to x, y
-    // should I move
-    const shouldMove = this.shouldMove(x, y);
-    // if I should move what are my new coordinates
-    if (shouldMove) {
-      const [newX, newY] = this.getNewCoordinates([x, y]);
-      // if I should move pass new coordinates to 
-      this.move(newX, newY);
-    }
-  }
-}
-
+import Knot from './Knot';
 
 function Day9() {
   const parsePuzzle = input => {
     return parseTextByLines(input).map(x => x.split(' '));
   };
   const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
+  const [knotCount, setKnotCount] = useState(10);
   const timeStart = Date.now();
  
   let headCoordinates = [0, 0];
-
-  const knotCount = 10;
   const knots = [];
 
   for (let index = 0; index < knotCount; index += 1) {
@@ -130,7 +35,6 @@ function Day9() {
       knot.setNextKnot(knots[index + 1]);
     }
   }
-
 
   const moveHead = (direction, steps) => {
     const [previousX, previousY] = [...headCoordinates];
@@ -157,31 +61,72 @@ function Day9() {
     }
   }
 
-  // const shortPuzzle = take(puzzle, 2);
   puzzle.forEach(([direction, steps]) => {
-  // shortPuzzle.forEach(([direction, steps]) => {
     moveHead(direction, Number(steps));
   });
 
-  
+  const [headKnot] = knots;
+  const headMoves = flatten(headKnot.moves);
+  const edgeDistance = Math.max(...headMoves);
+  console.log('the max distance', edgeDistance);
   const tailPositions = knots[knots.length - 1].positions;
-  console.log('All knots', knots);
   console.log('All tail possitions after moves', knots[knots.length - 1]);
 
-  // console.log('The puzzle', puzzle);
+  const rows = [];
+
+  for (let ri = (edgeDistance * -1); ri <= edgeDistance; ri += 1) {
+    const cells = [];
+    const rowKey = `row-${ri}`;
+    for (let ci = (edgeDistance * -1); ci <= edgeDistance; ci += 1) {
+      const cellKey = `cell-${ri}-${ci}`;
+      let cellClass = 'neutral-result';
+      const wasHit = tailPositions[`${ci}-${(ri * -1)}`];
+      if (wasHit) {
+        cellClass = 'good-result';
+      }
+      cells.push(
+        <td key={cellKey} className={cellClass}>
+          {wasHit ? '🪢' : ''}
+        </td>
+      );
+    }
+
+    rows.push(<tr key={rowKey}>{cells}</tr>);
+  }
+
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
       <Title message="Day 8 2022" />
       <Body>
-        <Button size="sm" onClick={() => setPuzzle(parsePuzzle(sample1))}>Sample 1</Button>
-        <Button size="sm" onClick={() => setPuzzle(parsePuzzle(sample2))}>Sample 2</Button>
-        <Button size="sm" onClick={() => setPuzzle(parsePuzzle(puzzle1))}>Full Puzzle</Button>
+        <Form>
+          <FormGroup>
+            <Input
+              name="select"
+              type="select"
+              defaultValue={knotCount}
+              onChange={e => { setKnotCount(Number(e.currentTarget.value)); }}
+            >
+              <option value="2">Part 1: 2 Knots</option>
+              <option value="10">Part 2: 10 knots</option>
+            </Input>
+            <Button size="sm" onClick={() => setPuzzle(parsePuzzle(sample1))}>Sample 1</Button>
+            <Button size="sm" onClick={() => setPuzzle(parsePuzzle(sample2))}>Sample 2</Button>
+            <Button size="sm" onClick={() => setPuzzle(parsePuzzle(puzzle1))}>Full Puzzle</Button>
+          </FormGroup>
+        </Form>
         <br />
         Otherwise, if the head and tail aren't touching and aren't in the same row or column, the tail always moves one step diagonally to keep up:
       </Body>
       <Body>
-        The tail was in {Object.keys(tailPositions).length} positions.
+        The rope with {knotCount} knots, the tail was in {Object.keys(tailPositions).length} positions.
+        <div>
+          <table class={`rope-table ${knotCount > 5 && puzzle.length > 8 ? 'smaller' : ''}`}>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        </div>
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>
