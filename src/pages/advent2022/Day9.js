@@ -68,10 +68,7 @@ function Day9() {
   const [headKnot] = knots;
   const headMoves = flatten(headKnot.moves);
   const edgeDistance = Math.max(...headMoves);
-  console.log('the max distance', edgeDistance);
   const tailPositions = knots[knots.length - 1].positions;
-  console.log('All tail possitions after moves', knots[knots.length - 1]);
-
   const rows = [];
 
   for (let ri = (edgeDistance * -1); ri <= edgeDistance; ri += 1) {
@@ -97,7 +94,7 @@ function Day9() {
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
-      <Title message="Day 8 2022" />
+      <Title message="Day 9 2022" />
       <Body>
         <Form>
           <FormGroup>
@@ -121,7 +118,7 @@ function Day9() {
       <Body>
         The rope with {knotCount} knots, the tail was in {Object.keys(tailPositions).length} positions.
         <div>
-          <table class={`rope-table ${knotCount > 5 && puzzle.length > 8 ? 'smaller' : ''}`}>
+          <table class={`rope-table ${puzzle.length > 8 ? 'smaller' : ''}`}>
             <tbody>
               {rows}
             </tbody>
