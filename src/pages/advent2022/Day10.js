@@ -22,7 +22,6 @@ function Day10() {
   const [puzzle, setPuzzle] = useState(parsePuzzle(sample2));
  
   let cycleIndex = 0;
-  let puzzleIndex = 0;
   let register = 1;
   const cyclesToCheck = [20, 60, 100, 140, 180, 220];
   const cyclesToRender = [40, 80, 120, 160, 200, 240];
@@ -38,10 +37,8 @@ function Day10() {
   };
 
   const renderPixel = () => {
-    // rending pixel fo this cycle
     const spritePosition = [(register - 1), register, (register + 1)];
-    console.log('The compare cycleIndex', (cycleIndex - pixelOneIndex));
-    console.log('The sprite position', spritePosition);
+
     if (spritePosition.indexOf((cycleIndex - pixelOneIndex)) > -1) {
       tempLine.push('#');
     } else {
@@ -54,29 +51,27 @@ function Day10() {
     }
   };
 
-  while (puzzleIndex < puzzle.length) {
-    const [command, value] = puzzle[puzzleIndex];
-
+  puzzle.forEach(line => {
+    const [command, value] = line;
+    
     if (command === 'noop') {
       cycleIndex += 1;
-      calculateSignalStrength();
       renderPixel();
+      calculateSignalStrength();
 
-      puzzleIndex += 1;
     } else if (command === 'addx') {
       cycleIndex += 1;
-      calculateSignalStrength();
       renderPixel();
-
+      calculateSignalStrength();
+      
       cycleIndex += 1;
-      calculateSignalStrength();
       renderPixel();
-
+      calculateSignalStrength();
+      
       register = register + value;
-      puzzleIndex += 1;
     }
     console.log('looping');
-  }
+  });
 
   let signalStrengths = 0;
   Object.keys(countsByCyle).forEach(key => {
@@ -102,6 +97,7 @@ function Day10() {
       </Body>
       <Body>
         The sum of the {cyclesToCheck.join(',')} cycles is: {signalStrengths}
+        <br />
         <div>
           <table className="crt-table">
             <tbody>
