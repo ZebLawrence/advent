@@ -27,7 +27,7 @@ function Day10() {
   const cyclesToRender = [40, 80, 120, 160, 200, 240];
   const countsByCyle = {};
   const screenByCycle = [];
-  let pixelOneIndex = 0;
+  let pixelOneIndex = 1;
   let tempLine = [];
 
   const calculateSignalStrength = () => {
@@ -40,6 +40,7 @@ function Day10() {
     const spritePosition = [(register - 1), register, (register + 1)];
 
     if (spritePosition.indexOf((cycleIndex - pixelOneIndex)) > -1) {
+      // tempLine.push(cycleIndex - pixelOneIndex);
       tempLine.push('#');
     } else {
       tempLine.push(' ');
@@ -53,7 +54,7 @@ function Day10() {
 
   puzzle.forEach(line => {
     const [command, value] = line;
-    
+
     if (command === 'noop') {
       cycleIndex += 1;
       renderPixel();
@@ -70,15 +71,12 @@ function Day10() {
       
       register = register + value;
     }
-    console.log('looping');
   });
 
   let signalStrengths = 0;
   Object.keys(countsByCyle).forEach(key => {
     signalStrengths += countsByCyle[key];
   })
-
-  console.log('The screen', screenByCycle);
 
   const timeEnd = Date.now();
   return (
