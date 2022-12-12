@@ -94,7 +94,7 @@ function Day9() {
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
-      <Title message="Day 9 2022" />
+      <Title message="Day 9 2022" day={9} year={2022}/>
       <Body>
         <Form>
           <FormGroup>
@@ -112,7 +112,6 @@ function Day9() {
             <Button size="sm" onClick={() => setPuzzle(parsePuzzle(puzzle1))}>Full Puzzle</Button>
           </FormGroup>
         </Form>
-        <br />
         Otherwise, if the head and tail aren't touching and aren't in the same row or column, the tail always moves one step diagonally to keep up:
       </Body>
       <Body>

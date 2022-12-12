@@ -1,11 +1,18 @@
 
 
 .home{
-    .nav-link{
+    .nav-link, .dropdown{
         padding-right: 0px;
+        cursor: pointer;
         &.active{
             color:#721c24;
             text-decoration: underline;
+        }
+
+        .dropdown-item{
+            padding: 0px;
+            padding-left: 10px;
+            font-size: 20px;
         }
     }
     a{

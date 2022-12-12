@@ -10,7 +10,6 @@ import {
   puzzle1
 } from '../../puzzles/2022/day3';
 
-
 function Day3() {
 
   const [puzzle, setPuzzle] = useState(parseTextByLines(sample));
@@ -41,13 +40,10 @@ function Day3() {
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
-      <Title message="Day 3 2022" />
+      <Title message="Day 3 2022" day={3} year={2022}/>
       <Body>
         <Button size="sm" onClick={() => setPuzzle(parseTextByLines(sample))}>Sample</Button>
         <Button size="sm" onClick={() => setPuzzle(parseTextByLines(puzzle1))}>Full Puzzle</Button>
-        {/* <Button onClick={() => setPuzzle(puzzle2)}>Puzzle 2</Button> */}
-        <br />
-        info
       </Body>
       <Body>
         Misplaced Items score: {misplacedScore}
@@ -57,7 +53,6 @@ function Day3() {
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>
   );
-
 }
 
 export default Day3;

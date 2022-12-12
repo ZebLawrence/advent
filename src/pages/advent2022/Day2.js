@@ -48,7 +48,7 @@ function Day2() {
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
-      <Title message="Day 2 2022" />
+      <Title message="Day 2 2022" day={2} year={2022}/>
       <Body>
         <Button size="sm" onClick={() => setPuzzle(parseTextByLines(sample))}>Sample</Button>
         <Button size="sm" onClick={() => setPuzzle(parseTextByLines(puzzle1))}>Full Puzzle</Button>

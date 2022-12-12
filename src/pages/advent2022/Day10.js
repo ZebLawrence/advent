@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, FormGroup } from 'reactstrap';
+import { Button, Form, FormGroup, Col } from 'reactstrap';
 import { chunk, indexOf } from 'lodash';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
@@ -81,7 +81,7 @@ function Day10() {
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
-      <Title message="Day 10 2022" />
+      <Title message="Day 10 2022" day={10} year={2022}/>
       <Body>
         <Form>
           <FormGroup>
@@ -90,8 +90,6 @@ function Day10() {
             <Button size="sm" onClick={() => setPuzzle(parsePuzzle(puzzle1))}>Full Puzzle</Button>
           </FormGroup>
         </Form>
-        <br />
-        info
       </Body>
       <Body>
         The sum of the {cyclesToCheck.join(',')} cycles is: {signalStrengths}

@@ -62,7 +62,7 @@ class Day1 extends Component {
     const timeEnd = Date.now();
     return (
       <div className="advent-day">
-        <Title message={defaultMessage} />
+        <Title message={defaultMessage}  day={4} year={2021}/>
         <Body>
           <Button disabled={drawEnd} color="primary" onClick={this.drawNext}>{`${drawEnd ? 'None Left' : 'Draw Next!'}`}</Button>
           <div>Last draw: <Badge className="rounded-circle" color="primary" pill >{bingoNumbers[drawIndex]}</Badge></div>

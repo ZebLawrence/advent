@@ -114,7 +114,7 @@ function Day11() {
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
-      <Title message="Day 11 2022" />
+      <Title message="Day 11 2022" day={11} year={2022}/>
       <Body>
         <Form>
           <FormGroup>
@@ -123,8 +123,6 @@ function Day11() {
             <Button size="sm" onClick={() => setPuzzle(parsePuzzle(puzzle1))}>Full Puzzle</Button>
           </FormGroup>
         </Form>
-        <br />
-        info
       </Body>
       <Body>
         Part 1. The level of monkey business after 20 turns {mostActive1 * secondMost1}

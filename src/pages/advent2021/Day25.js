@@ -97,7 +97,7 @@ function Day25() {
 
   return (
     <div className="advent-day">
-      <Title message="Day 25 2021" />
+      <Title message="Day 25 2021" day={25} year={2021}/>
       <Body>
         <Button size="sm" onClick={() => {
           setPuzzle(parseTextByLines(sample));

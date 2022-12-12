@@ -36,7 +36,7 @@ class Day1 extends Component {
     const timeEnd = Date.now();
     return (
       <div className="advent-day">
-        <Title message={defaultMessage} />
+        <Title message={defaultMessage}  day={1} year={2021} />
         <Body>
           <div>
             Increases: {total}

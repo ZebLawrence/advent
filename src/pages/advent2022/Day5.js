@@ -83,7 +83,7 @@ function Day5() {
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
-      <Title message="Day 5 2022" />
+      <Title message="Day 5 2022" day={5} year={2022}/>
       <Body>
         <Button size="sm" onClick={() => {
           setMoves(parseTextByLines(sample.moves).map(m => parseMove(m)));
@@ -96,8 +96,6 @@ function Day5() {
           setStacks2({...puzzle1.stacks2})
         }}>Full Puzzle</Button>
         <Button size="sm" onClick={handleStart}>Start Moves</Button>
-        <br />
-        info
       </Body>
       <Body>
         <div>

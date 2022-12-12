@@ -109,7 +109,7 @@ class Day1 extends Component {
     const timeEnd = Date.now();
     return (
       <div className="advent-day">
-        <Title message={defaultMessage} />
+        <Title message={defaultMessage}  day={3} year={2021}/>
         <Body>
           <div>Gamma rate: {gammaRate.join('')} as decimal {gammaDecimal}</div>
           <div>Epsilon rate: {epsilonRate.join('')} as decimal {epsilonDecimal}</div>
