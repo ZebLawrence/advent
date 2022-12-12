@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import { pages } from '../../pages/pagesConfig';
 
 class Home extends Component {
   constructor(props){
@@ -12,15 +12,18 @@ class Home extends Component {
   }
 
   render() {
-
+    const { children } = pages[2020];
     return (
       <div>
         Advent of code 2020
-        <Link to="/day1-2020">Day 1</Link>
-        <Link to="/day2-2020">Day 2</Link>
-        <Link to="/day3-2020">Day 3</Link>
-        <Link to="/day25-2020">Day 25</Link>
-        <Link to="/tree-2020">Tree</Link>
+        {
+          children.map(page => {
+            const { path, name } = page;
+            return(
+              <Link to={path} key={page}>{name}</Link>
+            );
+          })
+        }
       </div>
     );
   }
