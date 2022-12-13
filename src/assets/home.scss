@@ -325,4 +325,17 @@
             }
         }
     }
+
+    .map-table{
+        tr{
+            td{
+                width: 40px;
+                height: 45px;
+                line-height: 30px;
+                padding: 5px !important;
+                text-align: center !important;
+                text-shadow: 1px 1px 1px #fff, -1px -1px 1px #fff;
+            }
+        }
+    }
 }
