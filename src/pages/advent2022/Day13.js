@@ -12,11 +12,95 @@ function Day13() {
   const timeStart = Date.now();
 
   const parsePuzzle = input => {
-    return input.split('\n');
+    return input.split(':').map(rawPair => {
+      let [left, right] = rawPair.split('\n').filter(x => x);
+      left = JSON.parse(left);
+      right = JSON.parse(right);
+      return {
+        left,
+        right
+      };
+    });
   };
-
   const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
 
+  let totalCorrectPairIndex = [];
+  
+  const isArray = thing => {
+    return typeof thing === 'object';
+  }
+
+  const compareLeftRight = (left, right, result) => {
+    console.log(' -Compare', left, 'vs', right);
+
+    if (left.length === 0) {
+      result.push(true);
+      return result;
+    } else {
+      const compareIndex = Math.max(left.length, right.length);
+      for (let index = 0; index < compareIndex; index += 1) {
+        const leftItem = left[index] || null;
+        const rightItem = right[index] || null;
+  
+        if (rightItem === null) {
+          result.push(false);
+          console.log('   -Right side ran out of items, so inputs are not in the right order');
+          break;
+        } else if (leftItem === null) {
+          result.push(true);
+          console.log('   - Left side ran out of items, so inputs are in the right order');
+          break;
+        } else {
+          if (isArray(leftItem) || isArray(rightItem)) {
+            const leftCompare = isArray(leftItem) ? leftItem : [leftItem];
+            const rightCompare = isArray(rightItem) ? rightItem : [rightItem];
+            compareLeftRight(leftCompare, rightCompare, result);
+          } else {
+  
+            console.log(`   -(${index}) Compare`, leftItem, 'vs', rightItem);
+            if (leftItem < rightItem) {
+              result.push(true);
+              console.log('   - Left side is smaller, so inputs are in the right order');
+              break;
+            } else if (leftItem > rightItem) {
+              console.log('   -Right side is smaller, so inputs are not in the right order');
+              result.push(false);
+              break;
+            }
+          }
+        }
+        
+      }
+
+      
+      return result;
+    }
+
+
+  }
+
+  let total = 0;
+
+  puzzle.forEach((packet, index) => {
+    const { left, right } = packet;
+    console.log(`== Pair ${index + 1} ==`);
+    // TRY POPING THE FIRST LIST ITEM AND ONLY MOVING FWRD from there
+    if (index === 8) {
+
+      let setCompare = [];
+      const something = compareLeftRight(left, right, setCompare);
+      console.log('The return value', something);
+  
+      /// the return has way too many pushed into it see where breaks are missing
+      if (setCompare.indexOf(true) > -1) {
+        total += (index + 1);
+      }
+    }
+
+  })
+
+  // too low 5846
+  // too high 10698
   console.log('The puzzle', puzzle);
 
   const timeEnd = Date.now();
@@ -34,7 +118,7 @@ function Day13() {
       </Body>
       <Body>
         <div>
-          TBD
+          Total correct packet pairs {total}
           <table className="map-table">
             <tbody>
               {/* {
