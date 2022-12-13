@@ -7,6 +7,7 @@ import {
   sample1,
   puzzle1,
 } from '../../puzzles/2022/day13';
+import { indexOf } from 'lodash';
 
 function Day13() {
   const timeStart = Date.now();
@@ -30,79 +31,93 @@ function Day13() {
     return typeof thing === 'object';
   }
 
-  const compareLeftRight = (left, right, result) => {
-    console.log(' -Compare', left, 'vs', right);
+  const compareLeftRight = (left, right, log = false) => {
+    log &&console.log(' -Compare', left, 'vs', right);
+    if (left === undefined) {
+      log && console.log('   - Left side ran out of items, so inputs are in the right order');
+      throw true;
+    } else if (right === undefined) {
+      log && console.log('   -Right side ran out of items, so inputs are not in the right order');
+      throw false;
+    } else if (isArray(left) || isArray(right)) {
+      // log && console.log('found array, breaking into values', left, right);
+      const leftList = isArray(left) ? left : [left];
+      const rightList = isArray(right) ? right : [right];
+      const compareLength = Math.max(leftList.length, rightList.length);
 
-    if (left.length === 0) {
-      result.push(true);
-      return result;
-    } else {
-      const compareIndex = Math.max(left.length, right.length);
-      for (let index = 0; index < compareIndex; index += 1) {
-        const leftItem = left[index] || null;
-        const rightItem = right[index] || null;
-  
-        if (rightItem === null) {
-          result.push(false);
-          console.log('   -Right side ran out of items, so inputs are not in the right order');
-          break;
-        } else if (leftItem === null) {
-          result.push(true);
-          console.log('   - Left side ran out of items, so inputs are in the right order');
-          break;
-        } else {
-          if (isArray(leftItem) || isArray(rightItem)) {
-            const leftCompare = isArray(leftItem) ? leftItem : [leftItem];
-            const rightCompare = isArray(rightItem) ? rightItem : [rightItem];
-            compareLeftRight(leftCompare, rightCompare, result);
-          } else {
-  
-            console.log(`   -(${index}) Compare`, leftItem, 'vs', rightItem);
-            if (leftItem < rightItem) {
-              result.push(true);
-              console.log('   - Left side is smaller, so inputs are in the right order');
-              break;
-            } else if (leftItem > rightItem) {
-              console.log('   -Right side is smaller, so inputs are not in the right order');
-              result.push(false);
-              break;
-            }
-          }
-        }
-        
+      for (let index = 0; index < compareLength; index += 1) {
+        const leftItem = leftList.shift();
+        const rightItem = rightList.shift();
+        // log && console.log('inside the for loop at', index, 'of', compareLength);
+        compareLeftRight(leftItem, rightItem, log);
       }
-
-      
-      return result;
+    } else {
+      if (left < right) {
+        log && console.log('   - Left side is smaller, so inputs are in the right order');
+        throw true;
+      }
+      if (left > right) {
+        log && console.log('   -Right side is smaller, so inputs are not in the right order');
+        throw false;
+      }
     }
-
-
   }
 
   let total = 0;
 
-  puzzle.forEach((packet, index) => {
+  const allPackets = [];
+
+  // Part one
+  puzzle.forEach(async (packet, index) => {
     const { left, right } = packet;
-    console.log(`== Pair ${index + 1} ==`);
-    // TRY POPING THE FIRST LIST ITEM AND ONLY MOVING FWRD from there
-    if (index === 8) {
+    const leftClone = JSON.stringify(left);
+    const rightClone = JSON.stringify(right);
+    // console.log(`== Pair ${index + 1} ==`);
+    // console.log(' -Compare', leftClone, 'vs', rightClone);
 
-      let setCompare = [];
-      const something = compareLeftRight(left, right, setCompare);
-      console.log('The return value', something);
-  
-      /// the return has way too many pushed into it see where breaks are missing
-      if (setCompare.indexOf(true) > -1) {
-        total += (index + 1);
+      try {
+        const something = compareLeftRight(left, right);
+        console.error('The return value not caught', something);
+        
+      } catch (result) {
+        if (result) {
+          total += (index + 1);
+
+          allPackets.push(leftClone, rightClone);
+        } else {
+          allPackets.push(rightClone, leftClone);
+        }
       }
-    }
-
   })
 
-  // too low 5846
-  // too high 10698
-  console.log('The puzzle', puzzle);
 
+  // push the divider packets
+  allPackets.push('[[2]]', '[[6]]');
+  
+  console.log('The allPackets', allPackets);
+  
+  const allPacketsSorted = allPackets.sort((left, right) => {
+    // console.log('Attempting to sort', left, 'vs', right);
+
+    try {
+      const something = compareLeftRight(JSON.parse(left), JSON.parse(right));
+      console.error('The return value not caught', something);
+      
+    } catch (result) {
+      // console.log('The sort result', result);
+      
+      if (result) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+  });
+
+  const dividerOneIndex = allPacketsSorted.indexOf('[[2]]') + 1;
+  const dividerTwoIndex = allPacketsSorted. indexOf('[[6]]') + 1;
+
+  console.log('allPacketsSorted', allPacketsSorted);
   const timeEnd = Date.now();
   return (
     <div className="advent-day">
@@ -119,6 +134,8 @@ function Day13() {
       <Body>
         <div>
           Total correct packet pairs {total}
+          <br />
+          Divider index total {dividerOneIndex * dividerTwoIndex}
           <table className="map-table">
             <tbody>
               {/* {
