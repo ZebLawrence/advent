@@ -335,6 +335,14 @@
                     font-size: 5px;;
                     line-height: 5px;
                     padding: 1px !important;
+                    &.map{
+                        width: 15px;
+                        height: 15px;
+                        font-size: 10px;;
+                        line-height: 15px;
+                        padding: 1px !important;
+                        text-shadow: none;
+                    }
                 }
             }
         }

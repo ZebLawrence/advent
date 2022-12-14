@@ -102,7 +102,7 @@ function Day12() {
       <Body>
         <div>
           Shortest steps = {shortestPaths[startPos.y][startPos.x]}
-          <table className="map-table">
+          <table className={`map-table ${puzzle.heightMap.length > 5 ? 'large' : ''}`}>
             <tbody>
               {
                 puzzle.heightMap.map((row, ri) => {
@@ -114,9 +114,10 @@ function Day12() {
                           const cellKey = `cell-${ri}-${ci}`;
                           const colorVal = height * 9
                           let backgroundColor = `rgb(${256 - colorVal}, ${colorVal},${colorVal + 128})`;
+                          const content = shortestPaths[ri][ci] === Infinity ? '∞' : shortestPaths[ri][ci];
                           return (
-                            <td style={{ backgroundColor }} key={cellKey}>
-                              {shortestPaths[ri][ci]}
+                            <td className="map" title={content} style={{ backgroundColor }} key={cellKey}>
+                              {content}
                             </td>
                           );
                         })
