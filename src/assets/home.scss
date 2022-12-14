@@ -327,6 +327,17 @@
     }
 
     .map-table{
+        &.large{
+            tr{
+                td{
+                    width: 6px;
+                    height: 5px;
+                    font-size: 5px;;
+                    line-height: 5px;
+                    padding: 1px !important;
+                }
+            }
+        }
         tr{
             td{
                 width: 40px;
