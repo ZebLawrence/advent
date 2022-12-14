@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, Form, FormGroup } from 'reactstrap';
-import { cloneDeep } from 'lodash';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
 import Body from '../../components/Body';
@@ -35,7 +34,6 @@ function Day12() {
   };
 
   const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
-  // const [puzzle, setPuzzle] = useState(parsePuzzle(puzzle1));
 
   let heightMap = puzzle.heightMap;
   let endPos = puzzle.endPos;
@@ -113,7 +111,12 @@ function Day12() {
                         row.map((height, ci) => {
                           const cellKey = `cell-${ri}-${ci}`;
                           const colorVal = height * 9
-                          let backgroundColor = `rgb(${256 - colorVal}, ${colorVal},${colorVal + 128})`;
+                          let backgroundColor = `rgb(${256 - colorVal}, ${colorVal },${colorVal + 160})`;
+                          if (height === 0) {
+                            backgroundColor = `rgb(${163}, ${12}, ${102})`;
+                          } else if (height > 15 && height < Infinity) {
+                            backgroundColor = `rgb(${colorVal - 50}, ${colorVal + 10},${colorVal + 10})`;
+                          }
                           const content = shortestPaths[ri][ci] === Infinity ? '∞' : shortestPaths[ri][ci];
                           return (
                             <td className="map" title={content} style={{ backgroundColor }} key={cellKey}>
