@@ -292,6 +292,12 @@ const day15_2022 = {
     componentPath: 'advent2022/Day15',
     path: '/day15-2022'
 };
+const day16_2022 = {
+    name: 'Day 16',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day16',
+    path: '/day16-2022'
+};
 
 /**
  * Error
@@ -355,7 +361,8 @@ const pages = {
             day12_2022,
             day13_2022,
             day14_2022,
-            day15_2022
+            day15_2022,
+            day16_2022
         ]
     },
     routeError

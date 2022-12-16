@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { Button, Form, FormGroup } from 'reactstrap';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
+import { findIndex } from 'lodash';
 import Body from '../../components/Body';
 import {
   sample1,
   puzzle1,
   letters
 } from '../../puzzles/2022/day12';
+
+// https://qiao.github.io/PathFinding.js/visual/
 
 function Day12() {
   const timeStart = Date.now();
