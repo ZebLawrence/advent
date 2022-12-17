@@ -14,12 +14,10 @@ function PageContainer({ children }) {
         Object.keys(pages).forEach(key => {
             const { children, path }  = pages[key];
             if(currentPath.indexOf(pages[key].path) > -1){
-                // document.title = `Advent of code: ${pages[key].name}`;
                 pageClass = pages[key].bodyClass;
             } else if (children && children.length) {
                 children.forEach(child => {
                     if(currentPath.indexOf(child.path) > -1){
-                        console.log('page name', child.name);
                         document.title = `Advent of code: ${child.name}`;
                         pageClass = child.bodyClass;
                     }

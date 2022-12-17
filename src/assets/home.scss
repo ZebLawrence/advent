@@ -326,6 +326,20 @@
         }
     }
 
+    .tetris-table{
+        tr{
+            td{
+                width: 25px;
+                height: 25px;
+                font-size: 15px;;
+                line-height: 25px;
+                text-align: center !important;
+                font-weight: bold;
+                padding: 1px !important;       
+            }
+        }
+    }
+
     .map-table{
         &.large{
             tr{
