@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, FormGroup } from 'reactstrap';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { find } from 'lodash';
 import Plot from 'react-plotly.js'
 import Cube from './Cube';
 import Box from './Box';
@@ -10,8 +11,7 @@ import TimeTaken from '../../components/TimeTaken';
 import Body from '../../components/Body';
 import {
   sample1,
-  puzzle1,
-  innerCoords
+  puzzle1
 } from '../../puzzles/2022/day18';
 
 function Day18() {
@@ -49,23 +49,17 @@ function Day18() {
     return{
       coordsMap,
       coords,
-      minX,
-      maxX,
-      minY,
-      maxY,
-      minZ,
-      maxZ
+      minX: minX - 1,
+      maxX: maxX + 1,
+      minY: minY - 1,
+      maxY: maxY + 1,
+      minZ: minZ - 1,
+      maxZ: maxZ + 1,
     }
   };
 
-  const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
-  const [innerPuzzle, setInnerCoords] = useState(parsePuzzle(innerCoords));
+  const [puzzle, setPuzzle] = useState(parsePuzzle(puzzle1));
   const { coords, coordsMap, minX, maxX, minY, maxY, minZ, maxZ } = puzzle;
-  const tables = [...Array((maxZ - minZ) + 2)].map(table => 
-    [...Array((maxY - minY) + 2)].map(row => 
-      [...Array((maxX - minX) + 2).fill('O')]
-    )
-  );
   const cubes = [];
   let openFaces = 0;
 
@@ -75,98 +69,74 @@ function Day18() {
     newCube.checkContact();
     openFaces += newCube.openFaces;
     cubes.push(newCube);
-    tables[z][y][x] = '#';
   });
   
-  console.log('Tables', tables);
+  const outerCells = [];
+  const visitedMap = {};
+  const queuedMap = {};
 
-  const searchDirection = ([x, y, z], [dx, dy, dz]) => {
-    let result = false;
-    let found = false;
-    let newX = x;
-    let newY = y;
-    let newZ = z;
+  const searchFromCell = (ix, iy, iz) => {
+    const queue = [[ix, iy, iz]];
 
-    while (!result) {
-      newX = newX + dx;
-      newY = newY + dy;
-      newZ = newZ + dz; 
-
-      const cell = tables[newZ] && tables[newZ][newY] && tables[newZ][newY][newX];
-
-      if(cell === '#' || cell === undefined) {
-        found = cell;
-        result = true;
-        break;
-      }
-    }
-
-    return found;
-  };
-
-  const innerCells = [];
-
-  for (let zIndex = 0; zIndex < tables.length; zIndex += 1) {
-    const table = tables[zIndex];
-    for (let yIndex = 0; yIndex < table.length; yIndex++) {
-      const row = table[yIndex];
-      for (let xIndex = 0; xIndex < row.length; xIndex++) {
-        const cell = row[xIndex];
-        if (cell === 'O') {
-          try {          
-            // const left = searchDirection([xIndex, yIndex, zIndex], [-1, 0, 0]);
-            // const right = searchDirection([xIndex, yIndex, zIndex], [1, 0, 0]);
-            // const up = searchDirection([xIndex, yIndex, zIndex], [0, -1, 0]);
-            // const down = searchDirection([xIndex, yIndex, zIndex], [0, 1, 0]);
-            // const forward = searchDirection([xIndex, yIndex, zIndex], [0, 0, -1]);
-            // const backward = searchDirection([xIndex, yIndex, zIndex], [0, 0, 1]);
-            const left = searchDirection([xIndex, yIndex, zIndex], [-1, 0, 0]) === '#';
-            const right = searchDirection([xIndex, yIndex, zIndex], [1, 0, 0]) === '#';
-            const up = searchDirection([xIndex, yIndex, zIndex], [0, -1, 0]) === '#';
-            const down = searchDirection([xIndex, yIndex, zIndex], [0, 1, 0]) === '#';
-            const forward = searchDirection([xIndex, yIndex, zIndex], [0, 0, -1]) === '#';
-            const backward = searchDirection([xIndex, yIndex, zIndex], [0, 0, 1]) === '#';
-
-            if (left && right && up && down && forward && backward) {
-              innerCells.push([xIndex, yIndex, zIndex]);
+    while (queue.length > 0) {
+      const [x, y, z] = queue.shift();
+      visitedMap[`${x}:${y}:${z}`] = true;
+      if (x <= maxX && x >= minX && y <= maxY && y >= minY && z <= maxZ && z >= minZ) {
+  
+        const foundExisting = find([...coords], ([testX, testY, testZ]) => {
+          return x === testX && y === testY && z === testZ;
+        });
+    
+        if(!foundExisting) {
+          outerCells.push([x, y, z]);
+          const directions = [
+            [x, y + 1, z],
+            [x, y - 1, z],
+            [x - 1, y, z],
+            [x + 1, y, z],
+            [x, y, z - 1],
+            [x, y, z + 1]
+          ];
+    
+          directions.forEach(d => {
+            if (!visitedMap[`${d[0]}:${d[1]}:${d[2]}`]
+              && !queuedMap[`${d[0]}:${d[1]}:${d[2]}`]
+              && d[0] <= maxX && d[0] >= minX 
+              && d[1] <= maxY && d[1] >= minY
+              && d[2] <= maxZ && d[2] >= minZ
+              ) {
+              queuedMap[`${d[0]}:${d[1]}:${d[2]}`] = true;
+              queue.push([...d]);
             }
-
-          } catch (error) {
-            console.log('The search error', error);
-          }
+          });
         }
-      } 
+      }
     }
   }
 
+  searchFromCell(minX, minY, minZ);
+
+  const xDiff = Math.abs(maxX - minX) + 1;
+  const yDiff = Math.abs(maxY - minY) + 1;
+  const zDiff = Math.abs(maxZ - minZ) + 1;
+
+  const leftRightSize = (yDiff * zDiff) * 2;
+  const topBottomSize = (xDiff * zDiff) * 2;
+  const frontBackSize = (xDiff * yDiff) * 2;
+  const sidesTotal = leftRightSize + topBottomSize + frontBackSize;
+
+
   let innerCubeOpenFaces = 0;
   const innerCubes = [];
-  // console.log('All the inner cell coords', innerPuzzle);
-  
-  // innerPuzzle.coords.forEach(coord => {
-  innerCells.forEach(coord => {
-    const newCube = new Cube(coord, [...innerCells]);
-    // const newCube = new Cube(coord, [...innerPuzzle.coords]);
+  [...outerCells].forEach(coord => {
+    const newCube = new Cube(coord, [...outerCells]);
     newCube.checkContact();
     innerCubeOpenFaces += newCube.openFaces;
     innerCubes.push(newCube);
   });
     
-  console.log('All the inner cell coords', innerPuzzle);
-  console.log('The inner cubes', innerCubes)
-  console.log('The innerCells', innerCells);
-
-  // console.log('cubes', cubes);
-  // 4266
-  // 2570 too low
-  // 2576 too low
-  // 2582 wrong
-  // 2634 too high
 
 
-  // inside faces 1966
-
-  // 4536 - 1902 = 2634
   console.log('The puzzle x,y,z', puzzle);
   const timeEnd = Date.now();
   return (
@@ -182,8 +152,8 @@ function Day18() {
       </Body>
       <Body>
         <div>Open faces {openFaces}</div>
-        <div>Inside faces {innerCubeOpenFaces} </div>
-        <div>Part two outer only faces {openFaces - innerCubeOpenFaces}</div>
+        <div>Surrounding cube faces {innerCubeOpenFaces} </div>
+        <div>Part two outer only faces {innerCubeOpenFaces - sidesTotal}</div>
         <div className="d-flex justify-content-center">
           <div style={{ height: 800, width: 800 }}>
             <Canvas>
@@ -197,7 +167,13 @@ function Day18() {
                   );
                 })
               }
-              <OrbitControls />
+              <PerspectiveCamera
+                makeDefault
+                position={[40, 0.9, 1.8]}
+                fov={60}
+                zoom={1}
+              />
+              <OrbitControls target={[10,10,10]} />
             </Canvas>
           </div>
           <div style={{ height: 800, width: 800 }}>
@@ -206,30 +182,21 @@ function Day18() {
               <pointLight position={[10, 10, 10]} />
               <pointLight position={[50, 50, 30]} />
               {
-                [...innerCells].map(cube => {
+                [...outerCells].map(cube => {
                   return (
                     <Box key={JSON.stringify(cube)} position={cube} />
                   );
                 })
               }
-              <OrbitControls />
+              <PerspectiveCamera
+                makeDefault
+                position={[40, 40, 40]}
+                fov={60}
+                zoom={1}
+              />
+              <OrbitControls target={[10,10,10]} />
             </Canvas>
           </div>
-          {/* <div style={{ height: 800, width: 800 }}>
-            <Canvas>
-              <ambientLight />
-              <pointLight position={[10, 10, 10]} />
-              <pointLight position={[50, 50, 30]} />
-              {
-                [...innerPuzzle.coords].map(cube => {
-                  return (
-                    <Box key={JSON.stringify(cube)} position={cube} />
-                  );
-                })
-              }
-              <OrbitControls />
-            </Canvas>
-          </div> */}
           <div>
             <Plot
               data={[

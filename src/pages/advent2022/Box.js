@@ -5,7 +5,7 @@ function Box(props) {
     const [hovered, setHover] = useState(false)
     const [active, setActive] = useState(false)
     const [x, y, z] = props.position;
-    const color = `rgb(${x * 8}, ${y *5}, ${z * 12})`;
+    const color = `rgb(${Math.abs(x * 8)}, ${Math.abs(y *5)}, ${Math.abs(z * 12)})`;
 
     return (
       <mesh
