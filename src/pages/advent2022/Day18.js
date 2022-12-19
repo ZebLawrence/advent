@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import { Button, Form, FormGroup } from 'reactstrap';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { find } from 'lodash';
 import Plot from 'react-plotly.js'
+import Cube from './Cube';
 import Box from './Box';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
@@ -13,62 +13,6 @@ import {
   puzzle1,
   innerCoords
 } from '../../puzzles/2022/day18';
-
-class Cube {
-  constructor(coords, allCoords) {
-    const [x, y, z] = coords;
-    this.coords = coords;
-    this.allCoords = allCoords
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.left = false;
-    this.right = false;
-    this.up = false;
-    this.down = false;
-    this.forward = false;
-    this.backward = false;
-    this.touchingSides = 0;
-  }
-
-  checkCoord(testX, testY, testZ, direction) {
-    const found =  find(this.allCoords, ([x, y, z]) => {
-      return x === testX && y === testY && z === testZ;
-    });
-
-    if (found) {
-      this[direction] = true;
-      this.touchingSides += 1;
-    }
-  }
-
-  checkContact() {
-    // console.log('Look all directions from', this.coords);
-    const [x, y, z] = this.coords;
-    const directions = [
-      [x, y + 1, z, 'up'], // up
-      [x, y - 1, z, 'down'], // down
-      [x - 1, y, z, 'left'], // left
-      [x + 1, y, z, 'right'], // right
-      [x, y, z - 1, 'forward'], // forward
-      [x, y, z + 1, 'backward'] // backward
-    ];
-
-    directions.forEach(direction => {
-      this.checkCoord(...direction);
-    });
-
-    this.openFaces = (6 - this.touchingSides);
-  }
-
-  checkContained() {
-
-
-
-  }
-
-
-}
 
 function Day18() {
   const timeStart = Date.now();
@@ -114,7 +58,7 @@ function Day18() {
     }
   };
 
-  const [puzzle, setPuzzle] = useState(parsePuzzle(puzzle1));
+  const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
   const [innerPuzzle, setInnerCoords] = useState(parsePuzzle(innerCoords));
   const { coords, coordsMap, minX, maxX, minY, maxY, minZ, maxZ } = puzzle;
   const tables = [...Array((maxZ - minZ) + 2)].map(table => 
@@ -125,7 +69,6 @@ function Day18() {
   const cubes = [];
   let openFaces = 0;
 
-  
   [...coords].forEach(cube => {
     const [x, y, z] = cube;
     const newCube = new Cube(cube, [...coords]);
@@ -148,12 +91,8 @@ function Day18() {
       newX = newX + dx;
       newY = newY + dy;
       newZ = newZ + dz; 
-      // console.log('Look for new cell at', newX, newY, newZ);
+
       const cell = tables[newZ] && tables[newZ][newY] && tables[newZ][newY][newX];
-      /// const cell =  find(coords, ([x, y, z]) => {
-        // return x === newX && y === newY && z === newZ;
-      // });
-      // console.log('cell found', found);
 
       if(cell === '#' || cell === undefined) {
         found = cell;
@@ -171,13 +110,9 @@ function Day18() {
     const table = tables[zIndex];
     for (let yIndex = 0; yIndex < table.length; yIndex++) {
       const row = table[yIndex];
-     for (let xIndex = 0; xIndex < row.length; xIndex++) {
-      const cell = row[xIndex];
-      if (cell === 'O') {
-        //if (xIndex === 2 && yIndex === 2 && zIndex === 5) {
-
-          // console.log('Search from', [xIndex, yIndex, zIndex]);
-  
+      for (let xIndex = 0; xIndex < row.length; xIndex++) {
+        const cell = row[xIndex];
+        if (cell === 'O') {
           try {          
             // const left = searchDirection([xIndex, yIndex, zIndex], [-1, 0, 0]);
             // const right = searchDirection([xIndex, yIndex, zIndex], [1, 0, 0]);
@@ -191,22 +126,16 @@ function Day18() {
             const down = searchDirection([xIndex, yIndex, zIndex], [0, 1, 0]) === '#';
             const forward = searchDirection([xIndex, yIndex, zIndex], [0, 0, -1]) === '#';
             const backward = searchDirection([xIndex, yIndex, zIndex], [0, 0, 1]) === '#';
-  
+
             if (left && right && up && down && forward && backward) {
               innerCells.push([xIndex, yIndex, zIndex]);
-              // console.log('found inner cell');
             }
-  
-  
+
           } catch (error) {
             console.log('The search error', error);
           }
-        //}
-
-
-      }
-      // console.log('Cell', cell);
-     } 
+        }
+      } 
     }
   }
 
