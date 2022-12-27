@@ -399,4 +399,31 @@
             }
         }
     }
+
+    .containers{
+        tr{
+            td{
+                width: 40px !important;
+                height: 60px !important;
+                line-height: 15px;
+                text-shadow: 2px 2px 2px white, -2px -2px 2px white, -2px 2px 2px white, 2px -2px 2px white;
+                background-size: 100% 100%;
+                &.color-0{
+                    background-image: url(../assets/images/container-1.png);
+                }
+                &.color-1{
+                    background-image: url(../assets/images/container-2.png);
+                }
+                &.color-2{
+                    background-image: url(../assets/images/container-3.png);
+                }
+                &.color-3{
+                    background-image: url(../assets/images/container-4.png);
+                }
+                &.color-4{
+                    background-image: url(../assets/images/container-5.png);
+                }
+            }    
+        }
+    }
 }

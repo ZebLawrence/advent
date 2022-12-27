@@ -172,7 +172,7 @@ function Day14() {
                           const cellKey = `cell-${ri}-${ci}`;
                           let tileIcon = tile;
                           if (tile === '#') {
-                            tileIcon = '🌫️';
+                            tileIcon = '⬛';
                           };
                           if (tile === '+' || tile === 'o') {
                             tileIcon = '💰';

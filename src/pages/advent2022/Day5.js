@@ -98,70 +98,75 @@ function Day5() {
         <Button size="sm" onClick={handleStart}>Start Moves</Button>
       </Body>
       <Body>
-        <div>
-          Crates on top part 1: {topCrates1}
-          <table>
-            <tbody>
-              {
-                rows1.map((row, ri) => {
-                  const rowKey = `row-stack1-${ri}`;
-                  return (
-                    <tr key={rowKey}>
-                      {
-                        row.map((cell, ci) => {
-                          const cellKey = `cell-stack1-${ri}-${ci}`;
-                          return (<td key={cellKey}>{cell}</td>);
-                        })
-                      }
-                    </tr>
-                  );
-                })
-              }
-            </tbody>
-            <tfoot>
-              <tr>
+        <div className="d-flex justify-content-around">
+          <div>
+            Crates on top part 1: {topCrates1}
+            <table className="containers">
+              <tbody>
                 {
-                  Object.keys(stacks1).map((row, hi) => {
-                    const thKey = `row-stack1-th-${hi}`;
-                    return (<th key={thKey} className="text-center">{(hi + 1)}</th>);
+                  rows1.map((row, ri) => {
+                    const rowKey = `row-stack1-${ri}`;
+                    return (
+                      <tr key={rowKey}>
+                        {
+                          row.map((cell, ci) => {
+                            const cellKey = `cell-stack1-${ri}-${ci}`;
+                            let cellClass = cell !== '' ? `color-${Math.floor(Math.random() * 5)}` : '';
+                            return (
+                              <td className={cellClass} key={cellKey}>{cell}</td>
+                            );
+                          })
+                        }
+                      </tr>
+                    );
                   })
                 }
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        <br />
-        <div>
-          Crates on top part 2: {topCrates2}
-          <table>
-            <tbody>
-              {
-                rows2.map((row, ri) => {
-                  const rowKey = `row-stack2-${ri}`;
-                  return (
-                    <tr key={rowKey}>
-                      {
-                        row.map((cell, ci) => {
-                          const cellKey = `cell-stack2-${ri}-${ci}`;
-                          return (<td key={cellKey}>{cell}</td>);
-                        })
-                      }
-                    </tr>
-                  );
-                })
-              }
-            </tbody>
-            <tfoot>
-              <tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  {
+                    Object.keys(stacks1).map((row, hi) => {
+                      const thKey = `row-stack1-th-${hi}`;
+                      return (<th key={thKey} className="text-center">{(hi + 1)}</th>);
+                    })
+                  }
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div>
+            Crates on top part 2: {topCrates2}
+            <table className="containers">
+              <tbody>
                 {
-                  Object.keys(stacks1).map((row, hi) => {
-                    const thKey = `row-stack2-th-${hi}`;
-                    return (<th key={thKey} className="text-center">{(hi + 1)}</th>);
+                  rows2.map((row, ri) => {
+                    const rowKey = `row-stack2-${ri}`;
+                    return (
+                      <tr key={rowKey}>
+                        {
+                          row.map((cell, ci) => {
+                            const cellKey = `cell-stack2-${ri}-${ci}`;
+                            let cellClass = cell !== '' ? `color-${Math.floor(Math.random() * 5)}` : '';
+                            return (<td className={cellClass} key={cellKey}>{cell}</td>);
+                          })
+                        }
+                      </tr>
+                    );
                   })
                 }
-              </tr>
-            </tfoot>
-          </table>
+              </tbody>
+              <tfoot>
+                <tr>
+                  {
+                    Object.keys(stacks1).map((row, hi) => {
+                      const thKey = `row-stack2-th-${hi}`;
+                      return (<th key={thKey} className="text-center">{(hi + 1)}</th>);
+                    })
+                  }
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />

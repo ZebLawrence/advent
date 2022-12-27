@@ -83,7 +83,7 @@ function Day9() {
       }
       cells.push(
         <td key={cellKey} className={cellClass}>
-          {wasHit ? '🪢' : ''}
+          {wasHit ? '💥' : ''}
         </td>
       );
     }

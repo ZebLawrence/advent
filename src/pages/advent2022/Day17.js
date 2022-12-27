@@ -193,7 +193,7 @@ function Day17() {
                           const cellKey = `cell-${ri}-${ci}`;
                           let cellIcon = cell;
                           if (cell === '#') {
-                            cellIcon = '🪨';
+                            cellIcon = '✳️';
                           } else if (cell === '_' || cell === '|') {
                             cellIcon = '🧱';
                           } else if (cell === '.') {
