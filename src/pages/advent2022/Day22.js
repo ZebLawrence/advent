@@ -77,8 +77,8 @@ function Day22() {
   
   useEffect(() => {
     async function makeCall() {
-      const sample1Response = await fetch('day22Sample.txt').then(r => r.text());
-      const puzzle1Response = await fetch('day22.txt').then(r => r.text());
+      const sample1Response = await fetch('../day22Sample.txt').then(r => r.text());
+      const puzzle1Response = await fetch('../day22.txt').then(r => r.text());
   
       setPuzzle1(puzzle1Response);
       setSample1(sample1Response);
