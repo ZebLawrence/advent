@@ -5,7 +5,7 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { find } from 'lodash';
 import Plot from 'react-plotly.js'
 import Cube from './Cube';
-import Box from './Box';
+import Box from '../../components/Box';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
 import Body from '../../components/Body';

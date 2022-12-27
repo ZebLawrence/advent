@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, FormGroup } from 'reactstrap';
+import { findIndex } from 'lodash';
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
-import { findIndex } from 'lodash';
 import Body from '../../components/Body';
 import {
   sample1,
@@ -36,7 +36,7 @@ function Day12() {
     return { heightMap, ...startEndPos };
   };
 
-  const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
+  const [puzzle, setPuzzle] = useState(parsePuzzle(puzzle1));
 
   let heightMap = puzzle.heightMap;
   let endPos = puzzle.endPos;
@@ -101,6 +101,27 @@ function Day12() {
         </Form>
       </Body>
       <Body>
+        {/* <div style={{ height: 800, width: 800 }}>
+          <Canvas>
+            <ambientLight />
+            <pointLight position={[10, 10, 10]} />
+            <pointLight position={[50, 50, 30]} />
+            {
+              [...puzzle.coords].map(cube => {
+                return (
+                  <Box key={JSON.stringify(cube)} position={cube} />
+                );
+              })
+            }
+            <PerspectiveCamera
+              makeDefault
+              position={[40, 0.9, 1.8]}
+              fov={60}
+              zoom={1}
+            />
+            <OrbitControls target={[10,10,10]} />
+          </Canvas>
+        </div> */}
         <div>
           Shortest steps = {shortestPaths[startPos.y][startPos.x]}
           <table className={`map-table ${puzzle.heightMap.length > 5 ? 'large' : ''}`}>

@@ -328,6 +328,24 @@ const day21_2022 = {
     componentPath: 'advent2022/Day21',
     path: '/day21-2022'
 };
+const day22_2022 = {
+    name: 'Day 22',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day22',
+    path: '/day22-2022'
+};
+const day24_2022 = {
+    name: 'Day 24',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day24',
+    path: '/day24-2022'
+};
+const day25_2022 = {
+    name: 'Day 25',
+    bodyClass: 'home',
+    componentPath: 'advent2022/Day25',
+    path: '/day25-2022'
+};
 
 /**
  * Error
@@ -397,7 +415,10 @@ const pages = {
             day18_2022,
             day19_2022,
             day20_2022,
-            day21_2022
+            day21_2022,
+            day22_2022,
+            day24_2022,
+            day25_2022
         ]
     },
     routeError

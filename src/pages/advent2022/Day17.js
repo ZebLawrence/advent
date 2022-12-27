@@ -8,6 +8,7 @@ import {
   sample1,
   puzzle1
 } from '../../puzzles/2022/day17';
+import { Table3d } from '../../components/Table3d';
 
 function Day17() {
   const timeStart = Date.now();
@@ -179,7 +180,8 @@ function Day17() {
           <br />
           {step === 1000000000000 && `The height of the rocks ${(357 + (2754 * 574712643)) + 1522}`}
         </div>
-        <table className={`tetris-table large`}>
+        <div className="d-flex justify-content-center">
+          <table className={`tetris-table large`}>
             <tbody>
               {
                 step < 1000000000000 && tetrisTable.map((row, ri) => {
@@ -189,9 +191,17 @@ function Day17() {
                       {
                         row.map((cell, ci) => {
                           const cellKey = `cell-${ri}-${ci}`;
+                          let cellIcon = cell;
+                          if (cell === '#') {
+                            cellIcon = '🪨';
+                          } else if (cell === '_' || cell === '|') {
+                            cellIcon = '🧱';
+                          } else if (cell === '.') {
+                            cellIcon = ''
+                          }
                           return (
                             <td key={cellKey}>
-                              {cell}
+                              {cellIcon}
                             </td>
                           );
                         })
@@ -201,7 +211,26 @@ function Day17() {
                 })
               }
             </tbody>
-          </table>
+          </table>          
+          {/* <div style={{ height: '100%', width: '25%' }}> */}
+            {/* <Table3d
+              tableData={tetrisTable}
+              viewPosition={[10, (tetrisTable.length * -1), tetrisTable.length]}
+              zHeight={cellVal => {
+                if (cellVal === '|' || cellVal === '#') {
+                  return 2;
+                }
+                return 1;
+              }}
+              drawCell={cellVal => {
+                if (cellVal === '|' || cellVal === '#') {
+                  return true;
+                }
+                return false;
+              }}
+            />           */}
+          {/* </div> */}
+        </div>
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>

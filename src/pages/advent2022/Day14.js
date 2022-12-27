@@ -170,16 +170,19 @@ function Day14() {
                       {
                         row.map((tile, ci) => {
                           const cellKey = `cell-${ri}-${ci}`;
-                          let backgroundColor = '#fff';
-                          let borderRadius = 0;
-                          if (tile === '#') backgroundColor = '#000';
-                          if (tile === '+' || tile === 'o') {
-                            backgroundColor = '#cbaa32';
-                            borderRadius = '100%';
+                          let tileIcon = tile;
+                          if (tile === '#') {
+                            tileIcon = '🌫️';
                           };
+                          if (tile === '+' || tile === 'o') {
+                            tileIcon = '💰';
+                          };
+                          if (tile === '.') {
+                            tileIcon = '';
+                          }
                           return (
-                            <td style={{ backgroundColor, borderRadius }} key={cellKey}>
-                              {tile}
+                            <td key={cellKey}>
+                              {tileIcon}
                             </td>
                           );
                         })
