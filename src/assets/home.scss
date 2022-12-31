@@ -426,4 +426,15 @@
             }    
         }
     }
+
+    .roshambo {
+      caption {
+        caption-side: top !important;
+      }
+      tr{
+        td{
+          width: 150px;
+        }
+      }
+    }
 }

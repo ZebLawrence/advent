@@ -9,7 +9,6 @@ import {
   puzzle1
 } from '../../puzzles/2022/day2';
 
-
 function Day2() {
 
   const [puzzle, setPuzzle] = useState(parseTextByLines(sample));
@@ -44,6 +43,89 @@ function Day2() {
     strategyScore += winLoseTieMap[set];
   });
   
+  const getWin = set => {
+    switch (set) {
+      case 'A X':
+      case 'B Y':
+      case 'C Z':
+      case 'A A':
+      case 'B B':
+      case 'C C':
+        return 'alert-warning';
+      case 'A Y':
+      case 'B Z':
+      case 'C X':
+      case 'A B':
+      case 'B C':
+      case 'C A':
+        return 'alert-success';
+      case 'A Z':
+      case 'B X':
+      case 'C Y':
+      case 'A C':
+      case 'B A':
+      case 'C B':
+        return 'alert-danger';
+    }
+  };
+
+  const getPlay = (cell, part2) => {
+    switch (cell) {
+      case 'A':
+      case 'X':
+        return '🤜';
+      case 'B':
+      case 'Y':
+        return '🫳';
+      case 'C':
+      case 'Z':
+        return '✌️';
+      default:
+        break;
+    }
+  };
+
+  const getGoalPlay = (play, goal) => {
+    if (play === 'A') {
+      switch (goal) {
+        case 'X': //lose
+          return 'C';
+        case 'Y': //draw
+          return 'A';
+        case 'Z': //win
+          return 'B';
+      }
+    } else if (play === 'B') {
+      switch (goal) {
+        case 'X': //lose
+          return 'A';
+        case 'Y': //draw
+          return 'B';
+        case 'Z': //win
+          return 'C';
+      }
+    } else if (play === 'C') {
+      switch (goal) {
+        case 'X': //lose
+          return 'B';
+        case 'Y': //draw
+          return 'C';
+        case 'Z': //win
+          return 'A';
+      }
+    }
+  };
+
+  const getGoal = goal => {
+    switch (goal) {
+      case 'Y':
+        return 'Draw';
+      case 'X':
+        return 'Lose';
+      case 'Z':
+        return 'Win';
+    }
+  };
 
   const timeEnd = Date.now();
   return (
@@ -70,6 +152,72 @@ function Day2() {
         My Score: {myScore}
         <br />
         Strategy 2 Score: {strategyScore}
+        <div className="d-flex justify-content-around">
+          <table className="roshambo">
+            <caption>Part 1</caption>
+            <thead>
+              <tr>
+                <th>Opponent</th>
+                <th>Mine</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                puzzle && puzzle.map((row, ri) => {
+                  const rowKey = `row-${ri}`;
+                  const letters = row.split(' ');
+                  const rowClass = getWin(row);
+                  return (
+                    <tr className={rowClass} key={rowKey}>
+                      {
+                        letters.map((cell, ci) => {
+                          const cellKey = `cell-${ri}-${ci}`;
+                          const content = getPlay(cell);
+                          return (
+                            <td key={cellKey}>
+                              {content}
+                            </td>
+                          );
+                        })
+                      }
+                      <td>{scoreMap[row]}</td>
+                    </tr>
+                  );
+                })
+              }
+            </tbody>
+          </table>
+          <table className="roshambo">
+            <caption>Part 2</caption>
+            <thead>
+              <tr>
+                <th>Opponent</th>
+                <th>Goal</th>
+                <th>Mine</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                puzzle && puzzle.map((row, ri) => {
+                  const rowKey = `row-${ri}`;
+                  const letters = row.split(' ');
+                  const myPlay = getGoalPlay(letters[0], letters[1]);
+                  const rowClass = getWin(`${letters[0]} ${myPlay}`);
+                  return (
+                    <tr className={rowClass} key={rowKey}>
+                      <td>{getPlay(letters[0])}</td>
+                      <td>{getGoal(letters[1])}</td>
+                      <td>{getPlay(myPlay)}</td>
+                      <td>{winLoseTieMap[row]}</td>
+                    </tr>
+                  );
+                })
+              }
+            </tbody>
+          </table>
+        </div>
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>
