@@ -6,8 +6,7 @@ import Body from '../../components/Body';
 import {
   sample1,
   puzzle1,
-} from '../../puzzles/2022/day13';
-import { indexOf } from 'lodash';
+} from '../../puzzles/2022/day13'
 
 function Day13() {
   const timeStart = Date.now();
@@ -25,8 +24,6 @@ function Day13() {
   };
   const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
 
-  let totalCorrectPairIndex = [];
-  
   const isArray = thing => {
     return typeof thing === 'object';
   }
@@ -64,7 +61,6 @@ function Day13() {
   }
 
   let total = 0;
-
   const allPackets = [];
 
   // Part one
@@ -72,8 +68,6 @@ function Day13() {
     const { left, right } = packet;
     const leftClone = JSON.stringify(left);
     const rightClone = JSON.stringify(right);
-    // console.log(`== Pair ${index + 1} ==`);
-    // console.log(' -Compare', leftClone, 'vs', rightClone);
 
       try {
         const something = compareLeftRight(left, right);
@@ -93,19 +87,13 @@ function Day13() {
 
   // push the divider packets
   allPackets.push('[[2]]', '[[6]]');
-  
-  console.log('The allPackets', allPackets);
-  
   const allPacketsSorted = allPackets.sort((left, right) => {
-    // console.log('Attempting to sort', left, 'vs', right);
 
     try {
       const something = compareLeftRight(JSON.parse(left), JSON.parse(right));
       console.error('The return value not caught', something);
       
     } catch (result) {
-      // console.log('The sort result', result);
-      
       if (result) {
         return -1;
       } else {
@@ -126,39 +114,31 @@ function Day13() {
         <Form>
           <FormGroup>
             <Button size="sm" onClick={() => setPuzzle(parsePuzzle(sample1))}>Sample 1</Button>
-            {/* <Button size="sm" onClick={() => setPuzzle(parsePuzzle(sample2))}>Sample 2</Button> */}
             <Button size="sm" onClick={() => setPuzzle(parsePuzzle(puzzle1))}>Full Puzzle</Button>
           </FormGroup>
         </Form>
       </Body>
       <Body>
         <div>
-          Total correct packet pairs {total}
+          Total correct packet pairs: {total}
           <br />
-          Divider index total {dividerOneIndex * dividerTwoIndex}
-          <table className="map-table">
+          Divider index total: {dividerOneIndex * dividerTwoIndex}
+          <div>Sorted</div>
+          <table>
             <tbody>
-              {/* {
-                puzzle.heightMap.map((row, ri) => {
+              {
+                allPacketsSorted.map((row, ri) => {
                   const rowKey = `row-${ri}`;
+                  const cellKey = `cell-${ri}-row`;
                   return (
                     <tr key={rowKey}>
-                      {
-                        row.map((height, ci) => {
-                          const cellKey = `cell-${ri}-${ci}`;
-                          const colorVal = height * 9
-                          let backgroundColor = `rgb(${colorVal}, ${colorVal},${colorVal})`;
-                          return (
-                            <td style={{ backgroundColor }} key={cellKey}>
-                              {shortestPaths[ri][ci]}
-                            </td>
-                          );
-                        })
-                      }
+                      <td style={{ textAlign: 'left' }} key={cellKey}>
+                        {row}
+                      </td>
                     </tr>
                   );
                 })
-              } */}
+              }
             </tbody>
           </table>
         </div>

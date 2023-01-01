@@ -12,6 +12,8 @@
     "node-sass": "8.0.0",
     "plotly.js": "^2.16.5",
     "prismjs": "^1.29.0",
+    "react-force-graph-2d": "^1.23.15",
+    "react-force-graph-3d": "^1.21.17",
     "react-plotly.js": "^2.6.0",
     "redux-multi": "0.1.12",
     "three": "^0.147.0",

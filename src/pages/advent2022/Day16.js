@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, FormGroup } from 'reactstrap';
 import { find, difference } from 'lodash';
+import ForceGraph2D from "react-force-graph-2d";
+import ForceGraph3D from "react-force-graph-3d";
 import Title from '../../components/Title';
 import TimeTaken from '../../components/TimeTaken';
 import Body from '../../components/Body';
@@ -21,7 +23,7 @@ function Day16() {
       let [valveName, rate] = valve.replace('Valve ', '').replace(' has flow rate=', ':').split(':');
       caves = caves.replace(' tunnels lead to valves', '').replace(' tunnel leads to valve ', '').split(',').map(x => x.trim());
 
-      caves.push('end')
+      //caves.push('end')
 
       if (valveName === 'AA') {
         startIndex = index
@@ -42,7 +44,7 @@ function Day16() {
 
     const startValve = valves.splice(startIndex, 1);
     valves.unshift(startValve[0]);
-    valves.push({ valveName: 'end' })
+    //valves.push({ valveName: 'end', caves: [] })
     return {
       allMustVisitCaves,
       allValvesMap,
@@ -50,7 +52,7 @@ function Day16() {
     };
   };
 
-  const [puzzle, setPuzzle] = useState(parsePuzzle(sample1));
+  const [puzzle, setPuzzle] = useState(parsePuzzle(puzzle1));
   const [start, setStart] = useState(false);
   const {
     valves,
@@ -206,13 +208,29 @@ function Day16() {
       }
   }
 
-  start && traverse(valves[0], 0, []);
+  // start && traverse(valves[0], 0, []);
 
   console.log('The valid paths', validPaths);
   // console.log('The pathScore', pathScore);
   console.log('The allMustVisitCavesList', allMustVisitCaves);
   console.log('The allValvesMap', allValvesMap);
   console.log('The valves', valves);
+
+  const links = [];
+  valves.forEach(valve => {
+    valve.caves.forEach(cave => {
+      links.push ({
+        source: valve.valveName,
+        target: cave
+      });
+    });
+  });
+  const data = {
+    nodes: valves.map(v => {
+      return { id: v.valveName }
+    }),
+    links
+  };
 
   const timeEnd = Date.now();
   return (
@@ -228,7 +246,38 @@ function Day16() {
         </Form>
       </Body>
       <Body>
-        TBD
+        <div className="d-flex justify-content-around">
+          <ForceGraph2D
+            width={window.innerWidth / 2}
+            height={650}
+            graphData={data}
+            nodeCanvasObjectMode={() => 'after'}
+            nodeRelSize={10}
+            nodeCanvasObject={(node, ctx, globalScale) => {
+              const label = node.id;
+              const fontSize = 14;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillStyle = 'white';
+              ctx.fillText(label, node.x, node.y);
+            }}
+          />
+          <ForceGraph3D
+            width={window.innerWidth / 2}
+            height={650}
+            graphData={data}
+            nodeCanvasObjectMode={() => 'after'}
+            nodeRelSize={10}
+            nodeCanvasObject={(node, ctx, globalScale) => {
+              const label = node.id;
+              const fontSize = 14;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillStyle = 'white';
+              ctx.fillText(label, node.x, node.y);
+            }}
+          />
+        </div>
       </Body>
       <TimeTaken start={timeStart} end={timeEnd} />
     </div>
