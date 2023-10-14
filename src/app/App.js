@@ -41,6 +41,7 @@ class App extends Component {
             <a className="px-3" target="_blank" href="https://adventofcode.com/2020">2020</a>
             <a className="px-3" target="_blank" href="https://adventofcode.com/2021">2021</a>
             <a className="px-3" target="_blank" href="https://adventofcode.com/2022">2022</a>
+            <a className="px-3" target="_blank" href="https://adventofcode.com/2023">2023</a>
           </footer>
         </Container>
       </Router>

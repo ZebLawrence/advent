@@ -3,8 +3,8 @@ import { Card, CardBody } from 'reactstrap';
 
 const Body = ({ children }) => {
     return (
-        <Card>
-          <CardBody>         
+        <Card color="dark" dark>
+          <CardBody color="dark" dark>      
               {children}
           </CardBody>
         </Card>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import { pages } from '../../pages/pagesConfig';
+import Snow from '../snow/snow';
 import './pageContainer.scss';
 
 function PageContainer({ children }) {
@@ -33,6 +34,7 @@ function PageContainer({ children }) {
             <Col>
                 {children}
             </Col>
+            <Snow />
         </Row>
     );
 }

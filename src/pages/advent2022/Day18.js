@@ -199,6 +199,7 @@ function Day18() {
           </div>
           <div>
             <Plot
+              style={{ backgroundColor: 'transparent' }}
               data={[
                 {
                   x: coordsMap.x, 
@@ -214,6 +215,7 @@ function Day18() {
                 height: 800,
                 width: 800,
                 title: `3D Views`,
+                paper_bgcolor: 'transparent',
                 scene1: {
                   camera: {
                     center: {x: 0, y: 0, z: 0},

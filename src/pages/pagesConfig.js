@@ -347,6 +347,16 @@ const day25_2022 = {
     path: '/day25-2022'
 };
 
+
+/**
+ * 2022
+ */
+const advent2023 = {
+  name: '2023',
+  bodyClass: 'home',
+  componentPath: 'advent2023/home2023',
+  path: '/2023'
+};
 /**
  * Error
  */
@@ -421,6 +431,11 @@ const pages = {
             day25_2022
         ]
     },
+    2023: {
+      children: [
+        advent2023
+      ]
+    },
     routeError
 };
 
@@ -449,6 +464,7 @@ const navItems = [
     day17_2021,
     day19_2021,
     advent2022,
+    advent2023,
     tree_2020
 ];
 

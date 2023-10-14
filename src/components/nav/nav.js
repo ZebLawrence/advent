@@ -28,7 +28,7 @@ function Navigation() {
     const { children } = pages[key];
     if (children) {
       dropdowns.push(
-        <UncontrolledDropdown size="sm" key={key} setActiveFromChild>
+        <UncontrolledDropdown color="dark" dark expand="md" size="sm" key={key} setActiveFromChild>
           <DropdownToggle
             size="sm"
             className="nav-link"
@@ -38,13 +38,13 @@ function Navigation() {
             color="primary">
             {key}
           </DropdownToggle>
-          <DropdownMenu>
+          <DropdownMenu color="dark" dark expand="md">
             {
               children.map((childPage, index) => {
                 const { path, name } = childPage;
                 const pageKey = `${path}-${index}`;
                 return (
-                  <DropdownItem
+                  <DropdownItem color="dark" dark expand="md"
                     size="sm"
                     key={pageKey}
                     active={isMatch(path)}
@@ -62,9 +62,9 @@ function Navigation() {
   });
 
   return (
-    <Navbar color="light" light expand="md">
+    <Navbar color="dark" dark expand="md">
       <NavbarBrand href="/">Advent of code</NavbarBrand>
-      <Nav>
+      <Nav color="dark" dark expand="md">
         {/* <NavLink active={isMatch('2020')} href="/2020">2020</NavLink>
         <NavLink active={isMatch('2021')} href="/2021">2021</NavLink>
         <NavLink active={isMatch('2022') || pathname === '/'} href="/2022">2022</NavLink> */}
